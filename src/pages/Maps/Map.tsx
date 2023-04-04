@@ -26,6 +26,10 @@ export const Map = ({ setGuess }: Props) => {
     const map = new window.google.maps.Map(ref.current, {
       center,
       zoom,
+      fullscreenControl: false,
+      streetView: false,
+      streetViewControl: false,
+      mapTypeControl: false,
     });
 
     setMap(map);
