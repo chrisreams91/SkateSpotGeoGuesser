@@ -14,7 +14,7 @@ export const Map = ({ setGuess }: Props) => {
 
   useEffect(() => {
     const center = { lat: 40.580233, lng: -38.289179 };
-    const zoom = 2;
+    const zoom = 1;
 
     // @ts-ignore
     const map = new window.google.maps.Map(ref.current, {
@@ -24,6 +24,9 @@ export const Map = ({ setGuess }: Props) => {
       streetView: false,
       streetViewControl: false,
       mapTypeControl: false,
+      clickableIcons: false,
+      controlSize: 25,
+      zoomControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT },
     });
 
     const newMarker = new google.maps.Marker({

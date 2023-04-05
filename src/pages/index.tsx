@@ -1,12 +1,5 @@
-import React, {
-  useEffect,
-  useRef,
-  ReactElement,
-  useState,
-  useMemo,
-} from "react";
+import React, { ReactElement, useState, useMemo } from "react";
 import Head from "next/head";
-// import styles from "@/styles/Home.module.css";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 
 import StreetView from "./Maps/StreetView";
