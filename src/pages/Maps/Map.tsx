@@ -62,7 +62,6 @@ export const Map = ({ setGuess }: Props) => {
         position: "absolute",
         bottom: 60,
         right: 20,
-        opacity: 1,
       }}
     >
       <div
