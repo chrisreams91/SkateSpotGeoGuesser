@@ -32,17 +32,15 @@ const Home = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Header guess={guess} spot={macba} />
-      <div id="wrapperdiv" style={{ display: "flex" }}>
-        <Wrapper apiKey={API_KEY || ""} render={render}>
-          {useMemo(
-            () => (
-              <StreetView spot={macba} />
-            ),
-            []
-          )}
-          <Map setGuess={setGuess} />
-        </Wrapper>
-      </div>
+      <Wrapper apiKey={API_KEY || ""} render={render}>
+        {useMemo(
+          () => (
+            <StreetView spot={macba} />
+          ),
+          []
+        )}
+        <Map setGuess={setGuess} />
+      </Wrapper>
     </>
   );
 };

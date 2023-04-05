@@ -17,8 +17,9 @@ const StreetView = ({ spot }: Props) => {
       addressControl: false,
       fullscreenControl: false,
       showRoadLabels: false,
-      // panControl: false,
+      panControl: false,
       linksControl: false,
+      zoomControl: false,
     });
   });
 
@@ -26,8 +27,8 @@ const StreetView = ({ spot }: Props) => {
     <div
       // @ts-ignore
       ref={ref}
-      id="streetview"
-      style={{ height: 600, width: 600 }}
+      id="street-view"
+      style={{ height: "90vh" }}
     />
   );
 };

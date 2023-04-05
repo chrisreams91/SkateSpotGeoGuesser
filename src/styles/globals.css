@@ -106,14 +106,22 @@ a {
   }
 }
 
-#__next {
-  height: 80%;
+#map {
+  height: 100%;
+  width: 100%;
 }
 
-/* #streetview {
-  height: 100%;
+/* #map:hover {
+  height: 50vh;
+  width: 50vh;
 } */
 
-/* #map {
-  height: 100%;
-} */
+#map-container {
+  height: 30vh;
+  width: 30vh;
+}
+
+#map-container:hover {
+  height: 50vh;
+  width: 50vh;
+}

@@ -25,8 +25,7 @@ const Header = ({ spot, guess }: Props) => {
   const resultText = result ? `${result?.toString()} Miles` : "NA";
 
   return (
-    <div style={{ color: "white", backgroundColor: "black" }}>
-      <div>Score: X</div>
+    <div style={{ color: "white", backgroundColor: "black", height: "10vh" }}>
       <div>
         Current Spot Location = ({spot?.lat}, {spot?.lng})
       </div>
