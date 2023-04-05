@@ -3,7 +3,7 @@ import { Button } from "@chakra-ui/react";
 
 interface Props {
   setGuess: React.Dispatch<
-    React.SetStateAction<google.maps.Marker | undefined>
+    React.SetStateAction<{ lat: number; lng: number } | undefined>
   >;
 }
 
@@ -51,7 +51,7 @@ export const Map = ({ setGuess }: Props) => {
 
   const confirmSelection = () => {
     console.log(marker?.getPosition()?.toString());
-    setGuess(marker);
+    setGuess(marker?.getPosition()?.toJSON());
   };
 
   return (

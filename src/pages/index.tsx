@@ -1,10 +1,11 @@
 import React, { ReactElement, useState, useMemo } from "react";
 import Head from "next/head";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-
+import * as _ from "lodash";
 import StreetView from "./Maps/StreetView";
 import Map from "./Maps/Map";
 import Header from "./Header";
+import spots from "../../data/spots.json";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -14,9 +15,12 @@ const render = (status: Status): ReactElement => {
   return <></>;
 };
 
+const randomSelection = _.random(0, spots.length - 1);
+// const randomSelection = spots.length - 1;
+
 const Home = () => {
-  const macba = { lat: 41.382986, lng: 2.167269 };
-  const [guess, setGuess] = useState<google.maps.Marker>();
+  const spot = spots[randomSelection].coords;
+  const [guess, setGuess] = useState<{ lat: number; lng: number }>();
 
   return (
     <>
@@ -24,13 +28,13 @@ const Home = () => {
         <title>Skate Spot GeoGuesser</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Header guess={guess} spot={macba} />
+      <Header guess={guess} spot={spot} />
       <Wrapper apiKey={API_KEY || ""} render={render}>
         {useMemo(
           () => (
-            <StreetView spot={macba} />
+            <StreetView spot={spot} />
           ),
-          []
+          [spot]
         )}
         <Map setGuess={setGuess} />
       </Wrapper>
