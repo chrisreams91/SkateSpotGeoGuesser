@@ -38,6 +38,7 @@ next-env.d.ts
 
 
 # stuff
+data
 config.json
 examples
 TODO.md

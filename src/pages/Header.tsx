@@ -1,9 +1,10 @@
 import { point, distance } from "@turf/turf";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
+import { Spot } from "@prisma/client";
 
 interface Props {
-  spot: { lat: number; lng: number };
+  spot: Spot;
   guess: { lat: number; lng: number } | undefined;
 }
 
@@ -11,7 +12,8 @@ const Header = ({ spot, guess }: Props) => {
   const [result, setResult] = useState<Number>();
   useEffect(() => {
     if (guess) {
-      const spotPoint = point([spot.lat, spot.lng]);
+      //@ts-ignore
+      const spotPoint = point([spot.coords.lat, spot.coords.lng]);
       const guessPoint = point([guess.lat || 0, guess.lng || 0]);
       const calculatedDistance = distance(spotPoint, guessPoint, {
         units: "miles",
@@ -22,7 +24,16 @@ const Header = ({ spot, guess }: Props) => {
   }, [guess]);
 
   const voteToRemoveSpot = async () => {
-    console.log("voteToRemoveSpot");
+    const response = await fetch("/api/spots", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(spot),
+    });
+
+    const json = await response.json();
+    console.log("json");
   };
 
   const suggestSpotPov = async () => {

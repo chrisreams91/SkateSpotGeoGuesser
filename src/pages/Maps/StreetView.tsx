@@ -1,27 +1,28 @@
+import { Spot } from "@prisma/client";
 import React, { useEffect, useRef } from "react";
 
 interface Props {
-  spot: { lat: number; lng: number };
+  spot: Spot | undefined;
 }
 
 const StreetView = ({ spot }: Props) => {
-  const zoom = 0;
-
   const ref = useRef();
 
   useEffect(() => {
-    // @ts-ignore
-    new window.google.maps.StreetViewPanorama(ref.current, {
-      position: spot,
-      zoom,
-      addressControl: false,
-      fullscreenControl: false,
-      showRoadLabels: false,
-      panControl: false,
-      linksControl: false,
-      zoomControl: false,
-    });
-  });
+    if (spot) {
+      // @ts-ignore
+      new window.google.maps.StreetViewPanorama(ref.current, {
+        position: spot.coords,
+        zoom: 0,
+        addressControl: false,
+        fullscreenControl: false,
+        showRoadLabels: false,
+        panControl: false,
+        linksControl: false,
+        zoomControl: false,
+      });
+    }
+  }, [spot]);
 
   return (
     <div

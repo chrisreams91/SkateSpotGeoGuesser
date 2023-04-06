@@ -17,7 +17,7 @@ model Spot {
   name              String?
   spotView          Json?
   suggestedPovs     Json[]
-  votesToRemove     Int?
+  votesToRemove     Int @default(0)
   guesses           Guess[]
 }
 
