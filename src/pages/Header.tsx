@@ -1,5 +1,7 @@
-import { lineString, length, point, distance } from "@turf/turf";
+import { point, distance } from "@turf/turf";
 import { useEffect, useState } from "react";
+import { Button, ButtonGroup } from "@chakra-ui/react";
+
 interface Props {
   spot: { lat: number; lng: number };
   guess: { lat: number; lng: number } | undefined;
@@ -19,13 +21,43 @@ const Header = ({ spot, guess }: Props) => {
     }
   }, [guess]);
 
+  const voteToRemoveSpot = async () => {
+    console.log("voteToRemoveSpot");
+  };
+
+  const suggestSpotPov = async () => {
+    console.log("suggestSpotPov");
+  };
+
   const resultText = result ? `${result?.toString()} Miles` : "NA";
   const guessText = guess ? `${guess?.lat},${guess?.lng}` : "NA";
   return (
-    <div style={{ color: "white", backgroundColor: "black", height: "10vh" }}>
-      <div>Current Guess = {guessText}</div>
-      <div>Distance away = {resultText}</div>
-      <div>Score = TBD</div>
+    <div
+      style={{
+        color: "white",
+        backgroundColor: "black",
+        height: "10vh",
+        display: "flex",
+        justifyContent: "space-between",
+        paddingLeft: 20,
+        paddingRight: 20,
+      }}
+    >
+      <div>
+        <div>Current Guess = {guessText}</div>
+        <div>Distance away = {resultText}</div>
+        <div>Score = TBD</div>
+      </div>
+      <div style={{ display: "flex", alignItems: "center" }}>
+        <ButtonGroup>
+          <Button colorScheme="blue" onClick={suggestSpotPov}>
+            Suggest POV for spot
+          </Button>
+          <Button colorScheme="blue" onClick={voteToRemoveSpot}>
+            Remove Spot From Pool
+          </Button>
+        </ButtonGroup>
+      </div>
     </div>
   );
 };
