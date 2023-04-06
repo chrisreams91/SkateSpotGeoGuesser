@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Spot {
+  id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  coords            Json
+  source            String
+  sourceId          String?
+  name              String?
+  spotView          Json?
+  suggestedPovs     Json[]
+  votesToRemove     Int?
+  guesses           Guess[]
+}
+
+model Guess {
+  id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime @default(now())
+  coords            Json
+  distanceFromSpot  Int
+  score             Int
+  pov               Json
+  spot              Spot @relation(fields: [spotId], references: [id]) 
+  spotId            String @db.Uuid
+  user              User @relation(fields: [userId], references: [id]) 
+  userId            String @db.Uuid
+}
+
+model User {
+  id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  name              String
+  guesses           Guess[]
+}

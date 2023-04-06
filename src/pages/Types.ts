@@ -8,43 +8,12 @@ export interface SpotView {
   zoom: number;
 }
 
-export interface Spot {
-  id: string;
-  source: string;
-  sourceId?: string;
-  coords: Coords;
-  name?: string;
-  spotView: SpotView;
-  votesToRemoveFromPool: number;
-  suggestedPovs: SpotView[];
-  zoom: number;
-}
-
-export interface Guess {
-  id: string;
-  spotId: string;
-  guessCoords: Coords;
-  date: string;
-  distanceFromSpot: string;
-  povOfGuess: SpotView;
-  score: number;
-}
-
-export interface User {
-  id: string;
-  name: string;
-  createdDate: string;
-  lastActive: string;
-  guessCount: number;
-  guesses: Guess[];
-}
-
 //
 //
 // EXTERNAL
 //
 //
-export interface findSkateSpotsSpot {
+export interface FindSkateSpotsSpot {
   lat: number;
   lng: number;
   key: string;
