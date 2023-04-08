@@ -1,5 +1,5 @@
 import { createContext, useReducer, useContext } from "react";
-import { Coords } from "./Types";
+import { Coords } from "../Types";
 
 interface MapContext {
   map?: google.maps.Map;

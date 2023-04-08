@@ -2,9 +2,9 @@ import { point, distance } from "@turf/turf";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Spot } from "@prisma/client";
-import { Coords } from "./Types";
+import { Coords } from "../Types";
 import { useGlobalState } from "./Context";
-import http from "./Http";
+import http from "../Http";
 
 interface Props {
   spot: Spot | undefined;

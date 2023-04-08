@@ -7,7 +7,7 @@ import Map from "./Maps/Map";
 import Header from "./Header";
 import { Spot } from "@prisma/client";
 import ContextProvider from "./Context";
-import http from "./Http";
+import http from "../Http";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
