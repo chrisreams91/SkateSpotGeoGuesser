@@ -1,5 +1,6 @@
 import { Spot } from "@prisma/client";
 import React, { useEffect, useRef } from "react";
+import { useGlobalState } from "../Context";
 
 interface Props {
   spot: Spot | undefined;
@@ -7,20 +8,25 @@ interface Props {
 
 const StreetView = ({ spot }: Props) => {
   const ref = useRef();
+  const [state, dispatch] = useGlobalState();
 
   useEffect(() => {
     if (spot) {
-      // @ts-ignore
-      new window.google.maps.StreetViewPanorama(ref.current, {
-        position: spot.coords,
-        zoom: 0,
-        addressControl: false,
-        fullscreenControl: false,
-        showRoadLabels: false,
-        panControl: false,
-        linksControl: false,
-        zoomControl: false,
-      });
+      const streetView = new window.google.maps.StreetViewPanorama(
+        // @ts-ignore
+        ref.current,
+        {
+          position: spot.coords,
+          zoom: 0,
+          addressControl: false,
+          fullscreenControl: false,
+          showRoadLabels: false,
+          panControl: false,
+          linksControl: false,
+          zoomControl: false,
+        }
+      );
+      dispatch({ streetView: streetView });
     }
   }, [spot]);
 

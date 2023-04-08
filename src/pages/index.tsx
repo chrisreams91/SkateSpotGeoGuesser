@@ -5,9 +5,8 @@ import * as _ from "lodash";
 import StreetView from "./Maps/StreetView";
 import Map from "./Maps/Map";
 import Header from "./Header";
-import spots from "../../data/spots.json";
-import stoled from "../../data/stoled.json";
 import { Spot } from "@prisma/client";
+import ContextProvider from "./Context";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -46,16 +45,18 @@ const Home = () => {
         <title>Skate Spot GeoGuesser</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      {spot && <Header guess={guess} spot={spot} />}
-      <Wrapper apiKey={API_KEY || ""} render={render}>
-        {useMemo(
-          () => (
-            <StreetView spot={spot} />
-          ),
-          [spot]
-        )}
-        <Map setGuess={setGuess} />
-      </Wrapper>
+      <ContextProvider>
+        <Header guess={guess} spot={spot} />
+        <Wrapper apiKey={API_KEY || ""} render={render}>
+          {useMemo(
+            () => (
+              <StreetView spot={spot} />
+            ),
+            [spot]
+          )}
+          <Map setGuess={setGuess} />
+        </Wrapper>
+      </ContextProvider>
     </>
   );
 };
