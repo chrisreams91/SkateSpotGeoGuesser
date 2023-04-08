@@ -7,6 +7,7 @@ import Map from "./Maps/Map";
 import Header from "./Header";
 import { Spot } from "@prisma/client";
 import ContextProvider from "./Context";
+import http from "./Http";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -21,14 +22,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchSpot = async () => {
-      let response = await fetch("/api/spots", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      const spots: Spot[] = await response.json();
+      const spots: Spot[] = await http("/api/spots");
       const randomSelection = _.random(0, spots.length - 1);
 
       setSpot(spots[randomSelection]);

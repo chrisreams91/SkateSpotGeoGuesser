@@ -4,6 +4,7 @@ import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Spot } from "@prisma/client";
 import { Coords } from "./Types";
 import { useGlobalState } from "./Context";
+import http from "./Http";
 
 interface Props {
   spot: Spot | undefined;
@@ -28,34 +29,19 @@ const Header = ({ spot, guess }: Props) => {
     }
   }, [guess]);
 
+  const tagAsFamous = async () => {};
+
   const voteToRemoveSpot = async () => {
-    const response = await fetch("/api/spots", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(spot),
-    });
+    await http("/api/spots", "PUT", spot);
     setSpotVotedToRemove(true);
-    const json = await response.json();
   };
 
   const suggestSpotPov = async () => {
-    console.log(state);
     if (state.streetView) {
       console.log(state.streetView.getPosition());
       console.log(state.streetView.getPov().heading);
       console.log(state.streetView.getPov().pitch);
     }
-
-    // const response = await fetch("/api/spots", {
-    //   method: "PUT",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(spot),
-    // });
-    // console.log("suggestSpotPov");
   };
 
   const resultText = result ? `${result?.toString()} Miles` : "NA";
@@ -81,6 +67,9 @@ const Header = ({ spot, guess }: Props) => {
           </div>
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
+              <Button colorScheme="blue" onClick={tagAsFamous}>
+                Tag as famous
+              </Button>
               <Button colorScheme="blue" onClick={suggestSpotPov}>
                 Suggest POV for spot
               </Button>

@@ -1,8 +1,10 @@
-import { createContext, useState, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext } from "react";
+import { Coords } from "./Types";
 
 interface MapContext {
   map?: google.maps.Map;
   streetView?: google.maps.StreetViewPanorama;
+  pin?: Coords;
 }
 
 const mapContext = createContext<MapContext>({});
