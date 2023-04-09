@@ -2,7 +2,7 @@ import { point, distance } from "@turf/turf";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Spot } from "@prisma/client";
-import { Coords } from "../util/Types";
+import { Coords, Tag } from "../util/Types";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
 
@@ -30,7 +30,7 @@ const Header = ({ spot, guess }: Props) => {
   }, [guess]);
 
   const tagAsFamous = async () => {
-    await http(`/api/spots/${spot?.id}/voteToRemove`, "GET");
+    await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT", Tag.FAMOUS);
   };
 
   const voteToRemoveSpot = async () => {
@@ -45,8 +45,8 @@ const Header = ({ spot, guess }: Props) => {
       const pov = streetView.getPov();
 
       const suggestion = {
-        lat: position.lat(),
-        lng: position.lng(),
+        lat: position?.lat(),
+        lng: position?.lng(),
         heading: pov.heading,
         pitch: pov.pitch,
       };

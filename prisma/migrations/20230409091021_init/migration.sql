@@ -8,8 +8,9 @@ CREATE TABLE "Spot" (
     "sourceId" TEXT,
     "name" TEXT,
     "spotView" JSONB,
-    "suggestedPovs" JSONB[],
+    "suggestedPovs" JSONB[] DEFAULT ARRAY[]::JSONB[],
     "votesToRemove" INTEGER NOT NULL DEFAULT 0,
+    "tags" TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     CONSTRAINT "Spot_pkey" PRIMARY KEY ("id")
 );

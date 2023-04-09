@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 // import stoled from "../data/stoled.json";
-import { FindSkateSpotsSpot } from "@/Types";
+import { FindSkateSpotsSpot } from "@/util/Types";
 
 const prisma = new PrismaClient();
 

@@ -16,9 +16,10 @@ model Spot {
   sourceId          String?
   name              String?
   spotView          Json?
-  suggestedPovs     Json[]
+  suggestedPovs     Json[] @default([])
   votesToRemove     Int @default(0)
   guesses           Guess[]
+  tags              String[] @default([])
 }
 
 model Guess {

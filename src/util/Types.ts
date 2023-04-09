@@ -8,6 +8,10 @@ export interface SpotView {
   zoom: number;
 }
 
+export enum Tag {
+  FAMOUS = "FAMOUS",
+}
+
 //
 //
 // EXTERNAL

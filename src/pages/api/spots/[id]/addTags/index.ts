@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../../lib/prisma";
+import { Tag } from "@/util/Types";
 
 export default async function handle(
   req: NextApiRequest,
@@ -12,7 +13,7 @@ export default async function handle(
         id: String(id),
       },
       data: {
-        suggestedPovs: {
+        tags: {
           push: req.body,
         },
       },

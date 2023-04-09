@@ -10,8 +10,8 @@ interface MapContext {
 const mapContext = createContext<MapContext>({});
 const dispatchContext = createContext<any>(undefined);
 
-export const useGlobalState = () => [
-  useContext(mapContext) as MapContext,
+export const useGlobalState = (): [MapContext, any] => [
+  useContext(mapContext),
   useContext(dispatchContext),
 ];
 

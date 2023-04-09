@@ -6,7 +6,6 @@ export default async function handle(
   res: NextApiResponse
 ) {
   if (req.method == "GET") {
-    console.log(req);
     const result = await prisma.spot.findMany();
     return res.json(result);
   }
