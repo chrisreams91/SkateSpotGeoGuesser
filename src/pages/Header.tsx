@@ -2,9 +2,9 @@ import { point, distance } from "@turf/turf";
 import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Spot } from "@prisma/client";
-import { Coords } from "../Types";
+import { Coords } from "../util/Types";
 import { useGlobalState } from "./Context";
-import http from "../Http";
+import http from "../util/Http";
 
 interface Props {
   spot: Spot | undefined;
@@ -29,18 +29,28 @@ const Header = ({ spot, guess }: Props) => {
     }
   }, [guess]);
 
-  const tagAsFamous = async () => {};
+  const tagAsFamous = async () => {
+    await http(`/api/spots/${spot?.id}/voteToRemove`, "GET");
+  };
 
   const voteToRemoveSpot = async () => {
-    await http("/api/spots", "PUT", spot);
+    await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT");
     setSpotVotedToRemove(true);
   };
 
   const suggestSpotPov = async () => {
-    if (state.streetView) {
-      console.log(state.streetView.getPosition());
-      console.log(state.streetView.getPov().heading);
-      console.log(state.streetView.getPov().pitch);
+    const { streetView } = state;
+    if (streetView) {
+      const position = streetView.getPosition();
+      const pov = streetView.getPov();
+
+      const suggestion = {
+        lat: position.lat(),
+        lng: position.lng(),
+        heading: pov.heading,
+        pitch: pov.pitch,
+      };
+      await http(`/api/spots/${spot?.id}/suggestPov`, "PUT", suggestion);
     }
   };
 

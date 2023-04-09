@@ -1,5 +1,5 @@
 import { createContext, useReducer, useContext } from "react";
-import { Coords } from "../Types";
+import { Coords } from "../util/Types";
 
 interface MapContext {
   map?: google.maps.Map;
@@ -11,7 +11,7 @@ const mapContext = createContext<MapContext>({});
 const dispatchContext = createContext<any>(undefined);
 
 export const useGlobalState = () => [
-  useContext(mapContext),
+  useContext(mapContext) as MapContext,
   useContext(dispatchContext),
 ];
 

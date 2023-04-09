@@ -9,7 +9,7 @@ CREATE TABLE "Spot" (
     "name" TEXT,
     "spotView" JSONB,
     "suggestedPovs" JSONB[],
-    "votesToRemove" INTEGER,
+    "votesToRemove" INTEGER NOT NULL DEFAULT 0,
 
     CONSTRAINT "Spot_pkey" PRIMARY KEY ("id")
 );
