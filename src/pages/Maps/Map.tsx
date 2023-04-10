@@ -83,18 +83,22 @@ export const Map = ({}: Props) => {
       line: line,
       map,
     });
-
-    map.addListener("click", (event: google.maps.MapMouseEvent) => {
-      const updatedCoords = event.latLng?.toJSON();
-      setHasGuessed(true);
-      guessMarker.setVisible(true);
-      guessMarker.setPosition(updatedCoords);
-      console.log(map.getZoom());
-    });
   }, []);
 
+  // wait for map to load before adding listener
+  useEffect(() => {
+    state.map?.addListener("click", mapOnClick);
+  }, [state.map]);
+
+  const mapOnClick = (event: google.maps.MapMouseEvent) => {
+    const { guessSpotMapMarker } = state;
+    const updatedCoords = event.latLng?.toJSON();
+    setHasGuessed(true);
+    guessSpotMapMarker?.setVisible(true);
+    guessSpotMapMarker?.setPosition(updatedCoords);
+  };
+
   const confirmSelection = () => {
-    setMapContainerStyle("map-results-container");
     // TODO make map unclickable durign this state
 
     const { spot, actualSpotMarker, guessSpotMapMarker, line, map } = state;
@@ -121,11 +125,15 @@ export const Map = ({}: Props) => {
     ]);
     line?.setVisible(true);
 
+    setMapContainerStyle("map-results-container");
+
     const bounds = new google.maps.LatLngBounds();
     bounds.extend(actualSpotMarker?.getPosition()!);
     bounds.extend(guessSpotMapMarker?.getPosition()!);
     map?.setCenter(bounds.getCenter());
     map?.fitBounds(bounds, 0);
+    map?.setClickableIcons(false);
+    google.maps.event.clearListeners(map!, "click");
 
     dispatch!({ result: calculatedDistance });
   };
@@ -146,6 +154,7 @@ export const Map = ({}: Props) => {
 
     map?.setCenter(defaultCenter);
     map?.setZoom(defaultZoom);
+    map?.addListener("click", mapOnClick);
 
     dispatch!({ spot: nextSpot, result: undefined });
     setMapContainerStyle("map-container");
