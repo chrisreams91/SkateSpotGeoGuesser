@@ -26,13 +26,13 @@ model Guess {
   id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt         DateTime @default(now())
   coords            Json
-  distanceFromSpot  Int
+  distanceFromSpot  Float
   score             Int
   pov               Json
   spot              Spot @relation(fields: [spotId], references: [id]) 
   spotId            String @db.Uuid
-  user              User @relation(fields: [userId], references: [id]) 
-  userId            String @db.Uuid
+  user              User? @relation(fields: [userId], references: [id]) 
+  userId            String? @db.Uuid
 }
 
 model User {

@@ -16,6 +16,12 @@ const Header = ({}: Props) => {
     await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.FAMOUS);
   };
 
+  const tagAsCool = async () => {
+    const { spot } = state;
+
+    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.COOL);
+  };
+
   const voteToRemoveSpot = async () => {
     const { spot } = state;
 
@@ -34,6 +40,7 @@ const Header = ({}: Props) => {
         lng: position?.lng(),
         heading: pov.heading,
         pitch: pov.pitch,
+        zoom: streetView.getZoom(),
       };
       await http(`/api/spots/${spot?.id}/suggestPov`, "PUT", suggestion);
     }
@@ -66,15 +73,18 @@ const Header = ({}: Props) => {
               <Button colorScheme="blue" onClick={tagAsFamous}>
                 Tag as famous
               </Button>
+              <Button colorScheme="blue" onClick={tagAsCool}>
+                Tag as cool
+              </Button>
               <Button colorScheme="blue" onClick={suggestSpotPov}>
-                Suggest POV for spot
+                Suggest POV
               </Button>
               <Button
                 colorScheme="blue"
                 onClick={voteToRemoveSpot}
                 isDisabled={spotVotedToRemove}
               >
-                Remove Spot From Pool
+                Remove Spot
               </Button>
             </ButtonGroup>
           </div>

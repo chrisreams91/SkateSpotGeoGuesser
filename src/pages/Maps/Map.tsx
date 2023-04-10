@@ -98,10 +98,17 @@ export const Map = ({}: Props) => {
     guessSpotMapMarker?.setPosition(updatedCoords);
   };
 
-  const confirmSelection = () => {
+  const confirmSelection = async () => {
     // TODO make map unclickable durign this state
 
-    const { spot, actualSpotMarker, guessSpotMapMarker, line, map } = state;
+    const {
+      spot,
+      actualSpotMarker,
+      streetView,
+      guessSpotMapMarker,
+      line,
+      map,
+    } = state;
     const spotPoint = point([
       //@ts-ignore
       Number(spot?.coords?.lat),
@@ -136,6 +143,14 @@ export const Map = ({}: Props) => {
     google.maps.event.clearListeners(map!, "click");
 
     dispatch!({ result: calculatedDistance });
+
+    const body = {
+      coords: guessSpotMapMarker?.getPosition()?.toJSON(),
+      distanceFromSpot: calculatedDistance,
+      pov: streetView?.getPov(),
+      spotId: spot?.id,
+    };
+    await http("/api/guesses", "POST", body);
   };
 
   const loadNextSpot = async () => {

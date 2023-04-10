@@ -1,15 +1,12 @@
-export interface Coords {
-  lat: number;
-  lng: number;
-}
-
 export interface SpotView {
   pov: google.maps.StreetViewPov;
   zoom: number;
+  heading: number;
 }
 
 export enum Tag {
   FAMOUS = "FAMOUS",
+  COOL = "COOL",
 }
 
 //
