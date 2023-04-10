@@ -27,7 +27,7 @@ const StreetView = ({ spot }: Props) => {
           zoomControl: false,
         }
       );
-      dispatch({ streetView: streetView });
+      dispatch!({ streetView: streetView });
     }
   }, [dispatch, spot]);
 

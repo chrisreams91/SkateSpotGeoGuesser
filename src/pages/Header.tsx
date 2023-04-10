@@ -11,16 +11,20 @@ const Header = ({}: Props) => {
   const [state, dispatch] = useGlobalState();
 
   const tagAsFamous = async () => {
+    const { spot } = state;
+
     await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT", Tag.FAMOUS);
   };
 
   const voteToRemoveSpot = async () => {
+    const { spot } = state;
+
     await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT");
     setSpotVotedToRemove(true);
   };
 
   const suggestSpotPov = async () => {
-    const { streetView } = state;
+    const { streetView, spot } = state;
     if (streetView) {
       const position = streetView.getPosition();
       const pov = streetView.getPov();
