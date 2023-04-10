@@ -36,8 +36,8 @@ export const Map = ({}: Props) => {
     });
     // @ts-ignore
     const pos = { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng };
-    console.log("pos : ", pos);
-    console.log("state : ", state);
+    // console.log("pos : ", pos);
+    // console.log("state : ", state);
 
     const actualMarker = new google.maps.Marker({
       map,

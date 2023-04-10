@@ -17,6 +17,18 @@ export default async function handle(
 
       return res.json(result);
     } catch (error) {
+      const x = {
+        stringy: JSON.stringify(error),
+        error,
+        // @ts-ignore
+        message: error.message,
+        // @ts-ignore
+        code: error.code,
+        // @ts-ignore
+        meta: error.meta,
+        // @ts-ignore
+        clientVersion: error.clientVersion,
+      };
       return res.json(error);
     }
   }

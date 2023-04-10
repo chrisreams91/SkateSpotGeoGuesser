@@ -13,7 +13,7 @@ export default async function handle(
       take: 1,
       skip: skip,
     });
-    console.log("result :", result);
+    // console.log("result :", result);
 
     return res.json(result);
   }
