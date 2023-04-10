@@ -39,7 +39,6 @@ const Header = ({}: Props) => {
     }
   };
 
-  const resultText = state.result ? `${state.result?.toString()} Miles` : "NA";
   return (
     <div
       style={{
@@ -54,9 +53,14 @@ const Header = ({}: Props) => {
     >
       {state.spot && (
         <>
-          <div>
-            <div>Distance away = {resultText}</div>
+          <div style={{ margin: "auto" }}>
+            {state.result && (
+              <div style={{ fontSize: 20 }}>
+                Result: {state.result?.toFixed(2).toString()} Miles
+              </div>
+            )}
           </div>
+
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
               <Button colorScheme="blue" onClick={tagAsFamous}>

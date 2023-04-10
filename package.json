@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "script": "ts-node ./scripts/populateDb.ts"
+    "populateDb": "ts-node ./scripts/populateDb.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",

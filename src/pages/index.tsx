@@ -24,11 +24,12 @@ const Home = () => {
     // TODO why is this running twice
     const fetchSpot = async () => {
       const spot: Spot = await http("/api/spots");
+      console.log(spot);
       dispatch!({ spot });
     };
 
     fetchSpot();
-  }, [dispatch]);
+  }, []);
 
   return (
     <>

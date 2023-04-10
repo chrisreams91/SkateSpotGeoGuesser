@@ -4,6 +4,7 @@ import { useGlobalState } from "../Context";
 import http from "@/util/Http";
 import { Spot } from "@prisma/client";
 import { point, distance } from "@turf/turf";
+import { checkeredFlag } from "@/util/svgs";
 
 interface Props {}
 
@@ -14,13 +15,13 @@ export const Map = ({}: Props) => {
   // need to force rerender since mutations to map dont cause it
   const [hasGuessed, setHasGuessed] = useState(false);
 
-  useEffect(() => {
-    const center = { lat: 40.580233, lng: -38.289179 };
-    const zoom = 1.5;
+  const defaultCenter = { lat: 40.580233, lng: -38.289179 };
+  const defaultZoom = 1.5;
 
+  useEffect(() => {
     const map = new window.google.maps.Map(ref.current!, {
-      center,
-      zoom,
+      center: defaultCenter,
+      zoom: defaultZoom,
       fullscreenControl: false,
       streetView: null,
       streetViewControl: false,
@@ -36,18 +37,40 @@ export const Map = ({}: Props) => {
     // @ts-ignore
     const pos = { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng };
     console.log("pos : ", pos);
+    console.log("state : ", state);
+
     const actualMarker = new google.maps.Marker({
       map,
+      icon: {
+        path: checkeredFlag,
+        fillColor: "#00008B",
+        fillOpacity: 1,
+        strokeColor: "#AB47BC",
+        scale: 0.05,
+        anchor: new google.maps.Point(0, 550),
+      },
       // @ts-ignore
       position: { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng },
     });
 
+    const lineSymbol = {
+      path: "M 0,-1 0,1",
+      strokeOpacity: 1,
+      scale: 4,
+    };
     const line = new google.maps.Polyline({
       map,
       geodesic: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 1.0,
+      strokeColor: "#00008B",
+      strokeOpacity: 0,
       strokeWeight: 2,
+      icons: [
+        {
+          icon: lineSymbol,
+          offset: "0",
+          repeat: "15px",
+        },
+      ],
     });
 
     line.setVisible(false);
@@ -58,6 +81,7 @@ export const Map = ({}: Props) => {
       guessSpotMapMarker: guessMarker,
       actualSpotMarker: actualMarker,
       line: line,
+      map,
     });
 
     map.addListener("click", (event: google.maps.MapMouseEvent) => {
@@ -65,6 +89,7 @@ export const Map = ({}: Props) => {
       setHasGuessed(true);
       guessMarker.setVisible(true);
       guessMarker.setPosition(updatedCoords);
+      console.log(map.getZoom());
     });
   }, []);
 
@@ -72,16 +97,16 @@ export const Map = ({}: Props) => {
     setMapContainerStyle("map-results-container");
     // TODO make map unclickable durign this state
 
-    const { spot, actualSpotMarker, guessSpotMapMarker, line } = state;
+    const { spot, actualSpotMarker, guessSpotMapMarker, line, map } = state;
     const spotPoint = point([
       //@ts-ignore
-      Number(state.spot?.coords?.lat),
+      Number(spot?.coords?.lat),
       //@ts-ignore
-      Number(state.spot?.coords?.lng),
+      Number(spot?.coords?.lng),
     ]);
     const guessPoint = point([
-      Number(state.guessSpotMapMarker?.getPosition()?.lat()),
-      Number(state.guessSpotMapMarker?.getPosition()?.lng()),
+      Number(guessSpotMapMarker?.getPosition()?.lat()),
+      Number(guessSpotMapMarker?.getPosition()?.lng()),
     ]);
     const calculatedDistance = distance(spotPoint, guessPoint, {
       units: "miles",
@@ -95,11 +120,18 @@ export const Map = ({}: Props) => {
       guessSpotMapMarker?.getPosition(),
     ]);
     line?.setVisible(true);
+
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend(actualSpotMarker?.getPosition()!);
+    bounds.extend(guessSpotMapMarker?.getPosition()!);
+    map?.setCenter(bounds.getCenter());
+    map?.fitBounds(bounds, 0);
+
     dispatch!({ result: calculatedDistance });
   };
 
   const loadNextSpot = async () => {
-    const { spot, actualSpotMarker, guessSpotMapMarker, line } = state;
+    const { actualSpotMarker, guessSpotMapMarker, line, map } = state;
 
     const nextSpot: Spot = await http("/api/spots");
     guessSpotMapMarker?.setVisible(false);
@@ -111,6 +143,9 @@ export const Map = ({}: Props) => {
       lng: nextSpot.coords.lng,
     });
     line?.setVisible(false);
+
+    map?.setCenter(defaultCenter);
+    map?.setZoom(defaultZoom);
 
     dispatch!({ spot: nextSpot, result: undefined });
     setMapContainerStyle("map-container");
@@ -162,12 +197,7 @@ export const Map = ({}: Props) => {
             width: "100%",
           }}
         >
-          <Button
-            colorScheme="blue"
-            onClick={loadNextSpot}
-            width={"40"}
-            height={"8"}
-          >
+          <Button colorScheme="blue" onClick={loadNextSpot} size={"lg"}>
             Next Spot
           </Button>
         </div>
