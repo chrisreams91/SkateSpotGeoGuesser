@@ -8,14 +8,11 @@ export default async function handle(
   if (req.method == "GET") {
     const count = await prisma.spot.count();
     const skip = Math.max(0, Math.floor(Math.random() * count));
-    console.log("count : ", count);
-    console.log("skip : ", skip);
 
     const result = await prisma.spot.findFirst({
       take: 1,
       skip: skip,
     });
-    console.log("result : ", result);
 
     return res.json(result);
   }

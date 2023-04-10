@@ -1,25 +1,28 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useGlobalState } from "../Context";
+import http from "@/util/Http";
+import { Spot } from "@prisma/client";
+import { point, distance } from "@turf/turf";
 
 interface Props {}
 
 export const Map = ({}: Props) => {
   const ref = useRef();
   const [state, dispatch] = useGlobalState();
-  const [mapStyle, setMapStyle] = useState("map");
   const [mapContainerStyle, setMapContainerStyle] = useState("map-container");
+  // need to force rerender since mutations to map dont cause it
+  const [hasGuessed, setHasGuessed] = useState(false);
 
   useEffect(() => {
     const center = { lat: 40.580233, lng: -38.289179 };
     const zoom = 1.5;
 
-    // @ts-ignore
-    const map = new window.google.maps.Map(ref.current, {
+    const map = new window.google.maps.Map(ref.current!, {
       center,
       zoom,
       fullscreenControl: false,
-      streetView: false,
+      streetView: null,
       streetViewControl: false,
       mapTypeControl: false,
       clickableIcons: false,
@@ -27,29 +30,90 @@ export const Map = ({}: Props) => {
       zoomControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT },
     });
 
-    const marker = new google.maps.Marker({
+    const guessMarker = new google.maps.Marker({
       map,
     });
+    // @ts-ignore
+    const pos = { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng };
+    console.log("pos : ", pos);
+    const actualMarker = new google.maps.Marker({
+      map,
+      // @ts-ignore
+      position: { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng },
+    });
 
-    dispatch!({ mapMarkerCoords: marker.getPosition()?.toJSON() });
+    const line = new google.maps.Polyline({
+      map,
+      geodesic: true,
+      strokeColor: "#FF0000",
+      strokeOpacity: 1.0,
+      strokeWeight: 2,
+    });
+
+    line.setVisible(false);
+    guessMarker.setVisible(false);
+    actualMarker.setVisible(false);
+
+    dispatch!({
+      guessSpotMapMarker: guessMarker,
+      actualSpotMarker: actualMarker,
+      line: line,
+    });
 
     map.addListener("click", (event: google.maps.MapMouseEvent) => {
       const updatedCoords = event.latLng?.toJSON();
-
-      marker.setPosition(updatedCoords);
-      dispatch!({ mapMarkerCoords: updatedCoords });
+      setHasGuessed(true);
+      guessMarker.setVisible(true);
+      guessMarker.setPosition(updatedCoords);
     });
   }, []);
 
   const confirmSelection = () => {
-    setMapStyle("map-results");
     setMapContainerStyle("map-results-container");
-    console.log(state);
-    // setGuess(marker?.getPosition()?.toJSON());
+    // TODO make map unclickable durign this state
+
+    const { spot, actualSpotMarker, guessSpotMapMarker, line } = state;
+    const spotPoint = point([
+      //@ts-ignore
+      Number(state.spot?.coords?.lat),
+      //@ts-ignore
+      Number(state.spot?.coords?.lng),
+    ]);
+    const guessPoint = point([
+      Number(state.guessSpotMapMarker?.getPosition()?.lat()),
+      Number(state.guessSpotMapMarker?.getPosition()?.lng()),
+    ]);
+    const calculatedDistance = distance(spotPoint, guessPoint, {
+      units: "miles",
+    });
+
+    actualSpotMarker?.setVisible(true);
+    line?.setPath([
+      // @ts-ignore
+      actualSpotMarker?.getPosition(),
+      // @ts-ignore
+      guessSpotMapMarker?.getPosition(),
+    ]);
+    line?.setVisible(true);
+    dispatch!({ result: calculatedDistance });
   };
 
-  const loadNextSpot = () => {
-    console.log(state);
+  const loadNextSpot = async () => {
+    const { spot, actualSpotMarker, guessSpotMapMarker, line } = state;
+
+    const nextSpot: Spot = await http("/api/spots");
+    guessSpotMapMarker?.setVisible(false);
+    state.actualSpotMarker?.setVisible(false);
+    actualSpotMarker?.setPosition({
+      //@ts-ignore
+      lat: nextSpot.coords.lat,
+      //@ts-ignore
+      lng: nextSpot.coords.lng,
+    });
+    line?.setVisible(false);
+
+    dispatch!({ spot: nextSpot, result: undefined });
+    setMapContainerStyle("map-container");
   };
 
   return (
@@ -82,7 +146,7 @@ export const Map = ({}: Props) => {
           <Button
             colorScheme="blue"
             onClick={confirmSelection}
-            isDisabled={!state.mapMarkerCoords}
+            isDisabled={!hasGuessed}
             width={"40"}
             height={"8"}
           >
