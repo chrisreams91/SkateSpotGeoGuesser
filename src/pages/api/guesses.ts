@@ -29,7 +29,7 @@ export default async function handle(
         // @ts-ignore
         clientVersion: error.clientVersion,
       };
-      return res.json(error);
+      return res.json(x);
     }
   }
 }
