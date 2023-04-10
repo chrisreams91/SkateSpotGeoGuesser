@@ -13,7 +13,7 @@ const Header = ({}: Props) => {
   const tagAsFamous = async () => {
     const { spot } = state;
 
-    await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT", Tag.FAMOUS);
+    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.FAMOUS);
   };
 
   const voteToRemoveSpot = async () => {
