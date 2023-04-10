@@ -1,20 +1,18 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
+import { useGlobalState } from "../Context";
 
-interface Props {
-  setGuess: React.Dispatch<
-    React.SetStateAction<{ lat: number; lng: number } | undefined>
-  >;
-}
+interface Props {}
 
-export const Map = ({ setGuess }: Props) => {
+export const Map = ({}: Props) => {
   const ref = useRef();
-  const [marker, setMarker] = useState<google.maps.Marker>();
-  const [canSubmit, setCanSubmit] = useState(false);
+  const [state, dispatch] = useGlobalState();
+  const [mapStyle, setMapStyle] = useState("map");
+  const [mapContainerStyle, setMapContainerStyle] = useState("map-container");
 
   useEffect(() => {
     const center = { lat: 40.580233, lng: -38.289179 };
-    const zoom = 1;
+    const zoom = 1.5;
 
     // @ts-ignore
     const map = new window.google.maps.Map(ref.current, {
@@ -29,57 +27,87 @@ export const Map = ({ setGuess }: Props) => {
       zoomControlOptions: { position: google.maps.ControlPosition.TOP_RIGHT },
     });
 
-    const newMarker = new google.maps.Marker({
+    const marker = new google.maps.Marker({
       map,
     });
 
-    map.addListener("click", (event: google.maps.MapMouseEvent) => {
-      updateMarker(newMarker, event.latLng!);
-    });
+    dispatch!({ mapMarkerCoords: marker.getPosition()?.toJSON() });
 
-    setMarker(newMarker);
+    map.addListener("click", (event: google.maps.MapMouseEvent) => {
+      const updatedCoords = event.latLng?.toJSON();
+
+      marker.setPosition(updatedCoords);
+      dispatch!({ mapMarkerCoords: updatedCoords });
+    });
   }, []);
 
-  function updateMarker(
-    marker: google.maps.Marker,
-    position: google.maps.LatLng | google.maps.LatLngLiteral
-  ) {
-    marker.setPosition(position);
-    setMarker(marker);
-    setCanSubmit(true);
-  }
-
   const confirmSelection = () => {
-    console.log(marker?.getPosition()?.toString());
-    setGuess(marker?.getPosition()?.toJSON());
+    setMapStyle("map-results");
+    setMapContainerStyle("map-results-container");
+    console.log(state);
+    // setGuess(marker?.getPosition()?.toJSON());
+  };
+
+  const loadNextSpot = () => {
+    console.log(state);
   };
 
   return (
     <div
-      id="map-container"
-      style={{
-        zIndex: 5,
-        position: "absolute",
-        bottom: 60,
-        right: 20,
-      }}
+      // can i do all styles including on hover in code?
+      id={mapContainerStyle}
+      style={
+        mapContainerStyle == "map-results-container"
+          ? {
+              zIndex: 5,
+              position: "absolute",
+              top: "10vh",
+              width: "100%",
+            }
+          : {
+              zIndex: 5,
+              position: "absolute",
+              bottom: 60,
+              right: 20,
+            }
+      }
     >
       <div
         // @ts-ignore
         ref={ref}
         id="map"
       />
-      <div style={{ display: "flex", justifyContent: "center", padding: 5 }}>
-        <Button
-          colorScheme="blue"
-          onClick={confirmSelection}
-          isDisabled={!canSubmit}
-          width={"40"}
-          height={"8"}
+      {mapContainerStyle == "map-container" ? (
+        <div style={{ display: "flex", justifyContent: "center", padding: 5 }}>
+          <Button
+            colorScheme="blue"
+            onClick={confirmSelection}
+            isDisabled={!state.mapMarkerCoords}
+            width={"40"}
+            height={"8"}
+          >
+            Confirm
+          </Button>
+        </div>
+      ) : (
+        <div
+          style={{
+            position: "absolute",
+            bottom: "20px",
+            textAlign: "center",
+            width: "100%",
+          }}
         >
-          Confirm
-        </Button>
-      </div>
+          <Button
+            colorScheme="blue"
+            onClick={loadNextSpot}
+            width={"40"}
+            height={"8"}
+          >
+            Next Spot
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

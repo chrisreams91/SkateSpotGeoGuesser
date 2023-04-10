@@ -1,19 +1,21 @@
-import { createContext, useReducer, useContext } from "react";
+import { createContext, useReducer, useContext, Dispatch } from "react";
 import { Coords } from "../util/Types";
 
 interface MapContext {
   map?: google.maps.Map;
   streetView?: google.maps.StreetViewPanorama;
-  pin?: Coords;
+  mapMarkerCoords?: google.maps.LatLngLiteral;
 }
 
 const mapContext = createContext<MapContext>({});
-const dispatchContext = createContext<any>(undefined);
+const dispatchContext = createContext<
+  Dispatch<Partial<MapContext>> | undefined
+>(undefined);
 
-export const useGlobalState = (): [MapContext, any] => [
-  useContext(mapContext),
-  useContext(dispatchContext),
-];
+export const useGlobalState = (): [
+  MapContext,
+  Dispatch<Partial<MapContext>> | undefined
+] => [useContext(mapContext), useContext(dispatchContext)];
 
 interface Props {
   children: JSX.Element[];

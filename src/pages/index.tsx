@@ -1,7 +1,7 @@
 import React, { ReactElement, useState, useMemo, useEffect } from "react";
 import Head from "next/head";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
-import * as _ from "lodash";
+import _ from "lodash";
 import StreetView from "./Maps/StreetView";
 import Map from "./Maps/Map";
 import Header from "./Header";
@@ -21,11 +21,11 @@ const Home = () => {
   const [spot, setSpot] = useState<Spot>();
 
   useEffect(() => {
+    // TODO why is this running twice
     const fetchSpot = async () => {
-      const spots: Spot[] = await http("/api/spots");
-      const randomSelection = _.random(0, spots.length - 1);
+      const spot: Spot = await http("/api/spots");
 
-      setSpot(spots[randomSelection]);
+      setSpot(spot);
     };
 
     fetchSpot();
@@ -48,7 +48,7 @@ const Home = () => {
             ),
             [spot]
           )}
-          <Map setGuess={setGuess} />
+          <Map />
         </Wrapper>
       </ContextProvider>
     </>
