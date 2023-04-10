@@ -7,13 +7,17 @@ export default async function handle(
 ) {
   if (req.method == "POST") {
     const { body } = req;
-    const result = await prisma.guess.create({
-      data: {
-        ...body,
-        score: 0,
-      },
-    });
+    try {
+      const result = await prisma.guess.create({
+        data: {
+          ...body,
+          score: 0,
+        },
+      });
 
-    return res.json(result);
+      return res.json(result);
+    } catch (error) {
+      return res.json(error);
+    }
   }
 }
