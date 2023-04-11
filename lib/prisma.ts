@@ -11,23 +11,23 @@ export const handleErrors = (
       await routeHandler(req, res);
     } catch (error) {
       if (process.env.NODE_ENV === "development") {
-        const errorProperties = Object.getOwnPropertyNames(error);
-        const parsedError = {};
-
-        if (error instanceof Error) {
-          errorProperties.forEach((val) => {
-            //@ts-ignore
-            if (typeof error[val] === "function") {
-              //@ts-ignore
-              parsedError[val] = error[val]();
-            } else {
-              //@ts-ignore
-              parsedError[val] = error[val];
-            }
-          });
+        if (
+          error instanceof Prisma.PrismaClientInitializationError ||
+          error instanceof Prisma.PrismaClientKnownRequestError ||
+          error instanceof Prisma.PrismaClientRustPanicError ||
+          error instanceof Prisma.PrismaClientUnknownRequestError ||
+          error instanceof Prisma.PrismaClientValidationError
+        ) {
+          const betterError = {
+            cause: error.cause,
+            message: error.message,
+            name: error.name,
+            stack: error.stack,
+          };
+          return res.status(503).json(betterError);
         }
 
-        return res.status(503).json(parsedError);
+        return res.status(503).json({ type: "Non Prisma Error", error: error });
       } else {
         return res.status(503).json({ error: true });
       }
