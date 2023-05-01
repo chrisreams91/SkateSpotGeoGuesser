@@ -17,8 +17,7 @@ const StreetView = ({ spot }: Props) => {
         ref.current,
         {
           position: spot.coords,
-          // @ts-ignore
-          zoom: spot.spotView?.zoom || 0,
+          zoom: spot.pov?.zoom || 0,
           addressControl: false,
           fullscreenControl: false,
           showRoadLabels: false,

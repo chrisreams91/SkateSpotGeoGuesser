@@ -1,9 +1,0 @@
--- DropForeignKey
-ALTER TABLE "Guess" DROP CONSTRAINT "Guess_userId_fkey";
-
--- AlterTable
-ALTER TABLE "Guess" ALTER COLUMN "distanceFromSpot" SET DATA TYPE DOUBLE PRECISION,
-ALTER COLUMN "userId" DROP NOT NULL;
-
--- AddForeignKey
-ALTER TABLE "Guess" ADD CONSTRAINT "Guess_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

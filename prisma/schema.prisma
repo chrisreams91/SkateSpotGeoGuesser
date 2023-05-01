@@ -7,15 +7,26 @@ generator client {
   provider = "prisma-client-js"
 }
 
+/// Always after the prisma-client-js generator
+generator json {
+  provider = "prisma-json-types-generator"
+  // namespace = "PrismaJson"
+  // clientOutput = "<finds it automatically>"
+  // (./ -> relative to schema, or an importable path to require() it)
+}
+
 model Spot {
   id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-  coords            Json
   source            String
   sourceId          String?
   name              String?
-  spotView          Json?
+  /// [LatLngLiteral]
+  coords            Json
+  /// [IPov]
+  pov               Json?
+  /// [IPov]
   suggestedPovs     Json[] @default([])
   votesToRemove     Int @default(0)
   guesses           Guess[]
@@ -25,10 +36,12 @@ model Spot {
 model Guess {
   id                String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt         DateTime @default(now())
+  /// [LatLngLiteral]
   coords            Json
+  /// [IPov]
+  pov               Json
   distanceFromSpot  Float
   score             Int
-  pov               Json
   spot              Spot @relation(fields: [spotId], references: [id]) 
   spotId            String @db.Uuid
   user              User? @relation(fields: [userId], references: [id]) 

@@ -34,7 +34,6 @@ export const Map = ({}: Props) => {
     const guessMarker = new google.maps.Marker({
       map,
     });
-    // @ts-ignore
     const pos = { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng };
     // console.log("pos : ", pos);
     // console.log("state : ", state);
@@ -49,8 +48,10 @@ export const Map = ({}: Props) => {
         scale: 0.05,
         anchor: new google.maps.Point(0, 550),
       },
-      // @ts-ignore
-      position: { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng },
+      position: {
+        lat: state?.spot?.coords.lat!,
+        lng: state?.spot?.coords.lng!,
+      },
     });
 
     const lineSymbol = {
@@ -99,8 +100,6 @@ export const Map = ({}: Props) => {
   };
 
   const confirmSelection = async () => {
-    // TODO make map unclickable durign this state
-
     const {
       spot,
       actualSpotMarker,
@@ -109,15 +108,10 @@ export const Map = ({}: Props) => {
       line,
       map,
     } = state;
-    const spotPoint = point([
-      //@ts-ignore
-      Number(spot?.coords?.lat),
-      //@ts-ignore
-      Number(spot?.coords?.lng),
-    ]);
+    const spotPoint = point([spot?.coords?.lat!, spot?.coords?.lng!]);
     const guessPoint = point([
-      Number(guessSpotMapMarker?.getPosition()?.lat()),
-      Number(guessSpotMapMarker?.getPosition()?.lng()),
+      guessSpotMapMarker?.getPosition()?.lat()!,
+      guessSpotMapMarker?.getPosition()?.lng()!,
     ]);
     const calculatedDistance = distance(spotPoint, guessPoint, {
       units: "miles",
@@ -125,10 +119,8 @@ export const Map = ({}: Props) => {
 
     actualSpotMarker?.setVisible(true);
     line?.setPath([
-      // @ts-ignore
-      actualSpotMarker?.getPosition(),
-      // @ts-ignore
-      guessSpotMapMarker?.getPosition(),
+      actualSpotMarker?.getPosition()!,
+      guessSpotMapMarker?.getPosition()!,
     ]);
     line?.setVisible(true);
 
@@ -159,12 +151,7 @@ export const Map = ({}: Props) => {
     const nextSpot: Spot = await http("/api/spots");
     guessSpotMapMarker?.setVisible(false);
     state.actualSpotMarker?.setVisible(false);
-    actualSpotMarker?.setPosition({
-      //@ts-ignore
-      lat: nextSpot.coords.lat,
-      //@ts-ignore
-      lng: nextSpot.coords.lng,
-    });
+    actualSpotMarker?.setPosition(nextSpot.coords);
     line?.setVisible(false);
 
     map?.setCenter(defaultCenter);

@@ -1,7 +1,5 @@
-export interface SpotView {
-  pov: google.maps.StreetViewPov;
+export interface Pov extends google.maps.StreetViewPov {
   zoom: number;
-  heading: number;
 }
 
 export enum Tag {
