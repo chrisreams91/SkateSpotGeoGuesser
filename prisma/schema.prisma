@@ -31,6 +31,7 @@ model Spot {
   votesToRemove     Int @default(0)
   guesses           Guess[]
   tags              String[] @default([])
+  metadata          Json?
 }
 
 model Guess {

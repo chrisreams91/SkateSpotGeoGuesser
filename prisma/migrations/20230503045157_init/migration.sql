@@ -11,6 +11,7 @@ CREATE TABLE "Spot" (
     "suggestedPovs" JSONB[] DEFAULT ARRAY[]::JSONB[],
     "votesToRemove" INTEGER NOT NULL DEFAULT 0,
     "tags" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "metadata" JSONB,
 
     CONSTRAINT "Spot_pkey" PRIMARY KEY ("id")
 );

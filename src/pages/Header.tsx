@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
 import { Tag } from "../util/Types";
 import { useGlobalState } from "./Context";
@@ -9,6 +9,10 @@ interface Props {}
 const Header = ({}: Props) => {
   const [spotVotedToRemove, setSpotVotedToRemove] = useState(false);
   const [state, dispatch] = useGlobalState();
+
+  useEffect(() => {
+    setSpotVotedToRemove(false);
+  }, [state.spot]);
 
   const tagAsFamous = async () => {
     const { spot } = state;

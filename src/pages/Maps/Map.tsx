@@ -158,6 +158,7 @@ export const Map = ({}: Props) => {
     map?.setZoom(defaultZoom);
     map?.addListener("click", mapOnClick);
 
+    console.log(nextSpot);
     dispatch!({ spot: nextSpot, result: undefined });
     setMapContainerStyle("map-container");
   };

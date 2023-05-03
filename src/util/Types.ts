@@ -5,6 +5,7 @@ export interface Pov extends google.maps.StreetViewPov {
 export enum Tag {
   FAMOUS = "FAMOUS",
   COOL = "COOL",
+  POPULAR = "POPULAR",
 }
 
 //
@@ -12,10 +13,31 @@ export enum Tag {
 // EXTERNAL
 //
 //
-export interface FindSkateSpotsSpot {
-  lat: number;
-  lng: number;
-  key: string;
-  spotcount: string;
+export interface FindSkateSpotsFullEntity extends FindSkateSpotsSpot {
+  id: number;
+  title: string;
+  description: string;
+  slug: string;
   shortId: string;
+  streetNumber: string;
+  streetName: string;
+  postalCode: string;
+  formattedAddress: string;
+  area: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
+  photos: any[];
+}
+
+export interface FindSkateSpotsSpot {
+  videoCount: string;
+  photoCount: string;
+  slug: string;
+  location: {
+    slug: string;
+    city: string;
+    state: string;
+  };
 }

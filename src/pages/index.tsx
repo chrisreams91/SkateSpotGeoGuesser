@@ -39,12 +39,6 @@ const Home = () => {
       </Head>
       <Header />
       <Wrapper apiKey={API_KEY || ""} render={render}>
-        {/* {useMemo(
-          () => (
-            <StreetView spot={state.spot} />
-          ),
-          [state.spot]
-        )} */}
         {state.spot && (
           <>
             <StreetView spot={state.spot} />
