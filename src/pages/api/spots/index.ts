@@ -1,19 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma, { handleErrors } from "../../../../lib/prisma";
+import { Spot } from "@prisma/client";
+import { Tag } from "@/util/Types";
 
 export default handleErrors(
   async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method == "GET") {
-      const count = await prisma.spot.count();
-      const skip = Math.max(0, Math.floor(Math.random() * count));
+      const result: Spot[] = await prisma.$queryRawUnsafe(
+        `SELECT * FROM "Spot" WHERE '${Tag.POPULAR}'=ANY(tags) ORDER BY RANDOM() LIMIT 1;`
+      );
 
-      const result = await prisma.spot.findFirst({
-        take: 1,
-        skip: skip,
-      });
-      // console.log("result :", result);
-
-      return res.json(result);
+      console.log("result[0]: ", result[0]);
+      return res.json(result[0]);
     }
   }
 );

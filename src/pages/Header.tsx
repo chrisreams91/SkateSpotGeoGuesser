@@ -62,6 +62,8 @@ const Header = ({}: Props) => {
         paddingRight: 20,
       }}
     >
+      <div>Skate Spot GeoGuesser</div>
+
       {state.spot && (
         <>
           <div style={{ margin: "auto" }}>
@@ -71,12 +73,11 @@ const Header = ({}: Props) => {
               </div>
             )}
           </div>
-
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
-              <Button colorScheme="blue" onClick={tagAsFamous}>
+              {/* <Button colorScheme="blue" onClick={tagAsFamous}>
                 Tag as famous
-              </Button>
+              </Button> */}
               <Button colorScheme="blue" onClick={tagAsCool}>
                 Tag as cool
               </Button>

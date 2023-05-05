@@ -14,8 +14,9 @@ const main = async () => {
         sourceId: entity.shortId,
         name: entity.title,
         coords: { lat: entity.latitude, lng: entity.longitude },
-        ...(popularity > 10 && { tags: [Tag.POPULAR] }),
-        metadata: JSON.stringify(entity),
+        ...(popularity > 25 && { tags: [Tag.POPULAR] }),
+        //@ts-ignore
+        metadata: entity,
       },
     });
   }

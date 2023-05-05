@@ -8,6 +8,31 @@ export enum Tag {
   POPULAR = "POPULAR",
 }
 
+export enum GameType {
+  FREEPLAY = "FREEPLAY",
+  SCORED_ROUNDS = "SCORED_ROUNDS",
+  TIMED_ROUNDS = "TIMED_ROUNDS",
+}
+
+export enum SpotType {
+  POPULAR = "POPULAR",
+  ALL = "ALL",
+}
+
+export interface Game {
+  user: User;
+  gameType: GameType;
+  spotTypes: SpotType;
+  guesses: Guess[];
+  score: number;
+}
+
+export interface Guess {}
+
+export interface User {
+  name: string;
+}
+
 //
 //
 // EXTERNAL
