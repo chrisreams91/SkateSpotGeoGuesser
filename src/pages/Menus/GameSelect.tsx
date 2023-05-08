@@ -1,20 +1,20 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import {
+  Box,
   Button,
   Heading,
-  Radio,
-  RadioGroup,
-  Stack,
   Editable,
   EditablePreview,
   EditableInput,
 } from "@chakra-ui/react";
 import LeaderBoardWidget from "../Components/LeaderboardWidget";
-import { Game, GameType, SpotType } from "@/util/Types";
+import { GameType, SpotType } from "@/util/Types";
+import { TabRadioGroup } from "../Components/RadioGroup";
+import { Game } from "../Classes/Game";
 
 interface Props {
   gameStarted: boolean;
-  setGameStarted: Dispatch<SetStateAction<boolean>>;
+  setGameStarted: (game: Game) => void;
 }
 
 const GameSelect = ({ gameStarted, setGameStarted }: Props) => {
@@ -22,52 +22,38 @@ const GameSelect = ({ gameStarted, setGameStarted }: Props) => {
   const [spotType, setSpotType] = useState(SpotType.POPULAR);
   const [userName, setUserName] = useState("Anon");
 
-  const startGame = () => {
-    const game: Game = {
-      user: { name: userName },
-      gameType,
-      spotTypes: spotType,
-      guesses: [],
-      score: 0,
-    };
-    setGameStarted(true);
+  const createAndStartGame = () => {
+    const newGame = new Game(userName, gameType, spotType);
+    console.log(newGame);
+    setGameStarted(newGame);
   };
 
   return (
     <>
       {!gameStarted && (
         <div style={{ backgroundColor: "gray", height: "90vh" }}>
-          <div>
-            <Heading>Game Type</Heading>
-            <RadioGroup
-              onChange={(value: GameType) => setGameType(value)}
-              value={gameType}
-            >
-              <Stack direction="row">
-                <Radio value={GameType.FREEPLAY}>{GameType.FREEPLAY}</Radio>
-                <Radio value={GameType.SCORED_ROUNDS}>
-                  {GameType.SCORED_ROUNDS}
-                </Radio>
-                <Radio value={GameType.TIMED_ROUNDS}>
-                  {GameType.TIMED_ROUNDS}
-                </Radio>
-              </Stack>
-            </RadioGroup>
-          </div>
-          <div>
-            <Heading>Spot Types</Heading>
-            <RadioGroup
-              onChange={(value: SpotType) => setSpotType(value)}
-              value={spotType}
-            >
-              <Stack direction="row">
-                <Radio value={SpotType.POPULAR}>{SpotType.POPULAR}</Radio>
-                <Radio value={SpotType.ALL}>{SpotType.ALL}</Radio>
-              </Stack>
-            </RadioGroup>
-          </div>
-          <div>
-            <Heading>User Name</Heading>
+          <Box>
+            <Heading padding={"4"}>Game Type</Heading>
+            <TabRadioGroup
+              name="Game Type"
+              options={[
+                GameType.FREEPLAY,
+                GameType.SCORED_ROUNDS,
+                GameType.TIMED_ROUNDS,
+              ]}
+              onChange={(value) => setGameType(value as GameType)}
+            />
+          </Box>
+          <Box>
+            <Heading padding={"4"}>Spot Types</Heading>
+            <TabRadioGroup
+              name="Spot Types"
+              options={[SpotType.POPULAR, SpotType.ALL]}
+              onChange={(value) => setSpotType(value as SpotType)}
+            />
+          </Box>
+          <Box>
+            <Heading padding={"4"}>User Name</Heading>
             <Editable defaultValue={userName}>
               <EditablePreview />
               <EditableInput
@@ -75,11 +61,11 @@ const GameSelect = ({ gameStarted, setGameStarted }: Props) => {
                 onChange={(value) => setUserName(value.target.value)}
               />
             </Editable>
-          </div>
+          </Box>
           {/* <div>
             <LeaderBoardWidget />
           </div> */}
-          <Button onClick={startGame}>Start</Button>
+          <Button onClick={createAndStartGame}>Start</Button>
         </div>
       )}
     </>

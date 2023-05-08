@@ -9,6 +9,7 @@ import { Spot } from "@prisma/client";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
 import GameSelect from "./Menus/GameSelect";
+import { Game } from "./Classes/Game";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -22,25 +23,21 @@ const Home = () => {
   const [state, dispatch] = useGlobalState();
   const [gameStarted, setGameStarted] = useState(false);
 
-  useEffect(() => {
-    const fetchSpot = async () => {
-      const spot: Spot = await http("/api/spots");
-      console.log(spot);
-      dispatch!({ spot });
-    };
-
-    fetchSpot();
-  }, []);
+  const startGame = async (game: Game) => {
+    const spot: Spot = await http("/api/spots");
+    console.log(spot);
+    dispatch!({ spot, game });
+    setGameStarted(true);
+  };
 
   return (
     <>
-      {/* move this head shit out of here */}
       <Head>
         <title>Skate Spot GeoGuesser</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <Header />
-      <GameSelect gameStarted={gameStarted} setGameStarted={setGameStarted} />
+      <GameSelect gameStarted={gameStarted} setGameStarted={startGame} />
       <Wrapper apiKey={API_KEY || ""} render={render}>
         {gameStarted && state.spot && (
           <>

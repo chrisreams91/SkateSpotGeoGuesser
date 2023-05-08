@@ -19,19 +19,19 @@ export enum SpotType {
   ALL = "ALL",
 }
 
-export interface Game {
-  user: User;
-  gameType: GameType;
-  spotTypes: SpotType;
-  guesses: Guess[];
-  score: number;
-}
+// export interface Game {
+//   user: User;
+//   gameType: GameType;
+//   spotTypes: SpotType;
+//   guesses: Guess[];
+//   score: number;
+// }
 
 export interface Guess {}
 
-export interface User {
-  name: string;
-}
+// export interface User {
+//   name: string;
+// }
 
 //
 //

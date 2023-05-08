@@ -1,6 +1,6 @@
 import { createContext, useReducer, useContext, Dispatch } from "react";
 import { Spot } from "@prisma/client";
-import { Game } from "@/util/Types";
+import { Game } from "./Classes/Game";
 
 interface MapContext {
   map?: google.maps.Map;
