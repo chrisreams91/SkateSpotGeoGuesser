@@ -25,7 +25,7 @@ const render = (status: Status): ReactElement => {
 
 const Home = () => {
   const [state, dispatch] = useGlobalState();
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameStarted, setGameStarted] = useState(true);
 
   useEffect(() => {
     // TODO why is this running twice ( i think it was some local only bug i read some where)

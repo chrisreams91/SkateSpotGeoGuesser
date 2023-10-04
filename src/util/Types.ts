@@ -6,6 +6,7 @@ export enum Tag {
   FAMOUS = "FAMOUS",
   COOL = "COOL",
   POPULAR = "POPULAR",
+  REMOVE = "REMOVE",
 }
 
 export enum GameType {

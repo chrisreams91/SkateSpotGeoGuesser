@@ -5,16 +5,19 @@ export default handleErrors(
   async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method == "PUT") {
       const { id } = req.query;
-      const result = await prisma.spot.update({
-        where: {
-          id: String(id),
-        },
+      const { body } = req;
+
+      const result = await prisma.pov.create({
         data: {
-          // suggestedPovs: {
-          //   push: req.body,
-          // },
-        },
-      });
+          ...body,
+          spot: {
+            connect: {
+              id,
+            }
+          }
+        }
+      })
+      
       return res.json(result);
     }
   }

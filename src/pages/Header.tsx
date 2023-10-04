@@ -8,42 +8,33 @@ interface Props {}
 
 const Header = ({}: Props) => {
   const [spotVotedToRemove, setSpotVotedToRemove] = useState(false);
-  const [state, dispatch] = useGlobalState();
+  const [state, _dispatch] = useGlobalState();
 
-  const tagAsFamous = async () => {
-    const { spot } = state;
-
-    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.FAMOUS);
-  };
-
-  const tagAsCool = async () => {
-    const { spot } = state;
-
-    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.COOL);
-  };
-
-  const voteToRemoveSpot = async () => {
-    const { spot } = state;
-
-    await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT");
-    setSpotVotedToRemove(true);
-  };
-
-  const suggestSpotPov = async () => {
+  const updatePov = async () => {
     const { streetView, spot } = state;
     if (streetView) {
       const position = streetView.getPosition();
       const pov = streetView.getPov();
 
-      const suggestion = {
+      const spotPov = {
         lat: position?.lat(),
-        lng: position?.lng(),
+        long: position?.lng(),
         heading: pov.heading,
         pitch: pov.pitch,
         zoom: streetView.getZoom(),
       };
-      await http(`/api/spots/${spot?.id}/suggestPov`, "PUT", suggestion);
+
+
+      await http(`/api/spots/${spot?.id}/updatePov`, "PUT", spotPov);
     }
+  };
+
+  const addRemoveFromRotationTag = async () => {
+    const { spot } = state;
+
+    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.REMOVE);
+
+    setSpotVotedToRemove(true);
   };
 
   return (
@@ -70,18 +61,12 @@ const Header = ({}: Props) => {
 
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
-              <Button colorScheme="blue" onClick={tagAsFamous}>
-                Tag as famous
-              </Button>
-              <Button colorScheme="blue" onClick={tagAsCool}>
-                Tag as cool
-              </Button>
-              <Button colorScheme="blue" onClick={suggestSpotPov}>
-                Suggest POV
+              <Button colorScheme="blue" onClick={updatePov}>
+                Update POV
               </Button>
               <Button
                 colorScheme="blue"
-                onClick={voteToRemoveSpot}
+                onClick={addRemoveFromRotationTag}
                 isDisabled={spotVotedToRemove}
               >
                 Remove Spot
