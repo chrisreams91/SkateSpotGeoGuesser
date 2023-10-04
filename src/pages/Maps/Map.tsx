@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
 import { useGlobalState } from "../Context";
 import http from "@/util/Http";
-import { Spot } from "@prisma/client";
+import { Pov, Spot } from "@prisma/client";
 import { point, distance } from "@turf/turf";
 import { checkeredFlag } from "@/util/svgs";
 
@@ -34,8 +34,7 @@ export const Map = ({}: Props) => {
     const guessMarker = new google.maps.Marker({
       map,
     });
-    // @ts-ignore
-    const pos = { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng };
+    const pos = { lat: state?.spot?.pov?.lat, lng: state?.spot?.pov?.long };
     // console.log("pos : ", pos);
     // console.log("state : ", state);
 
@@ -49,8 +48,7 @@ export const Map = ({}: Props) => {
         scale: 0.05,
         anchor: new google.maps.Point(0, 550),
       },
-      // @ts-ignore
-      position: { lat: state?.spot?.coords.lat, lng: state?.spot?.coords.lng },
+      position: { lat: state?.spot?.pov?.lat!, lng: state?.spot?.pov?.long! },
     });
 
     const lineSymbol = {
@@ -110,10 +108,8 @@ export const Map = ({}: Props) => {
       map,
     } = state;
     const spotPoint = point([
-      //@ts-ignore
-      Number(spot?.coords?.lat),
-      //@ts-ignore
-      Number(spot?.coords?.lng),
+      Number(spot?.pov?.lat),
+      Number(spot?.pov?.long),
     ]);
     const guessPoint = point([
       Number(guessSpotMapMarker?.getPosition()?.lat()),
@@ -125,10 +121,8 @@ export const Map = ({}: Props) => {
 
     actualSpotMarker?.setVisible(true);
     line?.setPath([
-      // @ts-ignore
-      actualSpotMarker?.getPosition(),
-      // @ts-ignore
-      guessSpotMapMarker?.getPosition(),
+      actualSpotMarker?.getPosition()!,
+      guessSpotMapMarker?.getPosition()!,
     ]);
     line?.setVisible(true);
 
@@ -145,10 +139,14 @@ export const Map = ({}: Props) => {
     dispatch!({ result: calculatedDistance });
 
     const body = {
-      coords: guessSpotMapMarker?.getPosition()?.toJSON(),
       distanceFromSpot: calculatedDistance,
-      pov: streetView?.getPov(),
+      pov: {
+        lat: guessSpotMapMarker?.getPosition()?.lat(),
+        long: guessSpotMapMarker?.getPosition()?.lng(),
+        ...streetView?.getPov(),
+      },
       spotId: spot?.id,
+      // gameId: state.game?.id,
     };
     await http("/api/guesses", "POST", body);
   };
@@ -156,14 +154,15 @@ export const Map = ({}: Props) => {
   const loadNextSpot = async () => {
     const { actualSpotMarker, guessSpotMapMarker, line, map } = state;
 
-    const nextSpot: Spot = await http("/api/spots");
+    interface SpotWithPov extends Spot {
+      pov: Pov;
+    }
+    const nextSpot: SpotWithPov = await http("/api/spots");
     guessSpotMapMarker?.setVisible(false);
     state.actualSpotMarker?.setVisible(false);
     actualSpotMarker?.setPosition({
-      //@ts-ignore
-      lat: nextSpot.coords.lat,
-      //@ts-ignore
-      lng: nextSpot.coords.lng,
+      lat: nextSpot.pov.lat,
+      lng: nextSpot.pov.long,
     });
     line?.setVisible(false);
 

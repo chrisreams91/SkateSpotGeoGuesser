@@ -9,6 +9,7 @@ CREATE TABLE "Spot" (
     "source" TEXT NOT NULL,
     "sourceId" TEXT,
     "tags" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "povId" UUID NOT NULL,
 
     CONSTRAINT "Spot_pkey" PRIMARY KEY ("id")
 );
@@ -23,7 +24,6 @@ CREATE TABLE "Pov" (
     "heading" DOUBLE PRECISION NOT NULL,
     "pitch" DOUBLE PRECISION NOT NULL,
     "zoom" DOUBLE PRECISION NOT NULL,
-    "spotId" UUID NOT NULL,
 
     CONSTRAINT "Pov_pkey" PRIMARY KEY ("id")
 );
@@ -32,10 +32,9 @@ CREATE TABLE "Pov" (
 CREATE TABLE "Guess" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "lat" DOUBLE PRECISION NOT NULL,
-    "long" DOUBLE PRECISION NOT NULL,
     "distanceFromSpot" DOUBLE PRECISION NOT NULL,
     "score" INTEGER NOT NULL,
+    "povId" UUID NOT NULL,
     "spotId" UUID NOT NULL,
     "gameId" UUID,
 
@@ -64,10 +63,13 @@ CREATE TABLE "User" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Pov_spotId_key" ON "Pov"("spotId");
+CREATE UNIQUE INDEX "Spot_povId_key" ON "Spot"("povId");
 
 -- AddForeignKey
-ALTER TABLE "Pov" ADD CONSTRAINT "Pov_spotId_fkey" FOREIGN KEY ("spotId") REFERENCES "Spot"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Spot" ADD CONSTRAINT "Spot_povId_fkey" FOREIGN KEY ("povId") REFERENCES "Pov"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Guess" ADD CONSTRAINT "Guess_povId_fkey" FOREIGN KEY ("povId") REFERENCES "Pov"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Guess" ADD CONSTRAINT "Guess_spotId_fkey" FOREIGN KEY ("spotId") REFERENCES "Spot"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

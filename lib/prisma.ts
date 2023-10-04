@@ -23,10 +23,11 @@ export const handleErrors = (
             message: error.message,
             name: error.name,
             stack: error.stack,
+            clientVersion: error.clientVersion
           };
+
           return res.status(503).json(betterError);
         }
-
         return res.status(503).json({ type: "Non Prisma Error", error: error });
       } else {
         return res.status(503).json({ error: true });

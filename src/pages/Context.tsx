@@ -1,9 +1,13 @@
 import { createContext, useReducer, useContext, Dispatch } from "react";
-import { Spot } from "@prisma/client";
+import { Pov, Spot} from "@prisma/client";
+
+interface SpotWithPov extends Spot {
+  pov: Pov;
+}
 
 interface MapContext {
   map?: google.maps.Map;
-  spot?: Spot;
+  spot?: SpotWithPov;
   streetView?: google.maps.StreetViewPanorama;
   guessSpotMapMarker?: google.maps.Marker;
   actualSpotMarker?: google.maps.Marker;

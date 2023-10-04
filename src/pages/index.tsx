@@ -5,7 +5,7 @@ import _ from "lodash";
 import StreetView from "./Maps/StreetView";
 import Map from "./Maps/Map";
 import Header from "./Header";
-import { Spot } from "@prisma/client";
+import { Spot, Pov } from "@prisma/client";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
 
@@ -21,9 +21,13 @@ const Home = () => {
   const [state, dispatch] = useGlobalState();
 
   useEffect(() => {
-    // TODO why is this running twice
+    // TODO why is this running twice ( i think it was some local only bug i read some where)
+    interface SpotWithPov extends Spot {
+      pov: Pov;
+    }
+
     const fetchSpot = async () => {
-      const spot: Spot = await http("/api/spots");
+      const spot: SpotWithPov = await http("/api/spots");
       console.log(spot);
       dispatch!({ spot });
     };

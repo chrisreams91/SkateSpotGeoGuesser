@@ -1,9 +1,12 @@
-import { Spot } from "@prisma/client";
+import { Spot, Pov } from "@prisma/client";
 import React, { useEffect, useRef } from "react";
 import { useGlobalState } from "../Context";
 
+interface SpotWithPov extends Spot {
+  pov: Pov;
+}
 interface Props {
-  spot: Spot | undefined;
+  spot: SpotWithPov | undefined;
 }
 
 const StreetView = ({ spot }: Props) => {
@@ -16,15 +19,21 @@ const StreetView = ({ spot }: Props) => {
         // @ts-ignore
         ref.current,
         {
-          position: spot.coords,
-          // @ts-ignore
-          zoom: spot.spotView?.zoom || 0,
+          position: {
+            lat: spot.pov.lat,
+            lng: spot.pov.long,
+          },
+          zoom: spot.pov.zoom,
           addressControl: false,
           fullscreenControl: false,
           showRoadLabels: false,
           panControl: false,
           linksControl: false,
           zoomControl: false,
+          pov: {
+            heading: spot.pov.heading,
+            pitch: spot.pov.pitch,
+          }
         }
       );
       dispatch!({ streetView: streetView });

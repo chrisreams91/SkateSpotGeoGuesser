@@ -17,7 +17,8 @@ model Spot {
   source    String
   sourceId  String?
   tags      String[] @default([])
-  pov       Pov?
+  pov       Pov      @relation(fields: [povId], references: [id])
+  povId     String   @unique @db.Uuid
   guesses   Guess[]
 }
 
@@ -30,18 +31,18 @@ model Pov {
   heading   Float
   pitch     Float
   zoom      Float
-  spot      Spot     @relation(fields: [spotId], references: [id])
-  spotId    String   @unique @db.Uuid
+  spot      Spot?
+  Guess     Guess[]
 }
 
 model Guess {
   id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   createdAt        DateTime @default(now())
-  lat              Float
-  long             Float
   distanceFromSpot Float
   score            Int
-  spot             Spot     @relation(fields: [spotId], references: [id])
+  pov              Pov      @relation(fields: [povId], references: [id])
+  povId            String   @db.Uuid
+  spot             Spot?    @relation(fields: [spotId], references: [id])
   spotId           String   @db.Uuid
   Game             Game?    @relation(fields: [gameId], references: [id])
   gameId           String?  @db.Uuid

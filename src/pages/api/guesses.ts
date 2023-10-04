@@ -5,10 +5,21 @@ export default handleErrors(
   async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method == "POST") {
       const { body } = req;
+      
       const result = await prisma.guess.create({
         data: {
-          ...body,
+          distanceFromSpot: body.distanceFromSpot,
           score: 0,
+          pov: {  
+            create: {
+              ...body.pov,
+            }
+          },
+          spot: {
+            connect: {
+              id: body.spotId
+            }
+          },
         },
       });
 
