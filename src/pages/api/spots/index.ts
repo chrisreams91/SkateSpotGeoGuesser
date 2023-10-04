@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma, { handleErrors } from "../../../../lib/prisma";
 import { Spot } from "@prisma/client";
-import { Tag } from "@/util/Types";
+import { Tag } from "../../../util/Types"
 
 export default handleErrors(
   async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,7 +17,6 @@ export default handleErrors(
         },
       });
 
-      // console.log("result :", result);
       return res.json(result);
     }
   }

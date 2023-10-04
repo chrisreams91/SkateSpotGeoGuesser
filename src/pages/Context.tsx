@@ -1,5 +1,7 @@
+import React from "react";
 import { createContext, useReducer, useContext, Dispatch } from "react";
 import { Pov, Spot} from "@prisma/client";
+import { Game } from "./Classes/Game";
 
 interface SpotWithPov extends Spot {
   pov: Pov;
@@ -13,6 +15,7 @@ interface MapContext {
   actualSpotMarker?: google.maps.Marker;
   line?: google.maps.Polyline;
   result?: number;
+  game?: Game;
 }
 
 const mapContext = createContext<MapContext>({});

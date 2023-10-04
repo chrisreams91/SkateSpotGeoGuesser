@@ -10,9 +10,9 @@ export default handleErrors(
           id: String(id),
         },
         data: {
-          votesToRemove: {
-            increment: 1,
-          },
+          // votesToRemove: {
+          //   increment: 1,
+          // },
         },
       });
       return res.json(result);

@@ -1,4 +1,4 @@
-import { GameType, SpotType, Guess } from "@/util/Types";
+import { GameType, SpotType, Guess } from "../../util/Types";
 
 export class Game {
   user: string;

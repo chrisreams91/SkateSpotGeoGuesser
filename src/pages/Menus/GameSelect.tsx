@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import {
   Box,
   Button,
@@ -8,7 +8,7 @@ import {
   EditableInput,
 } from "@chakra-ui/react";
 import LeaderBoardWidget from "../Components/LeaderboardWidget";
-import { GameType, SpotType } from "@/util/Types";
+import { GameType, SpotType } from "../../util/Types";
 import { TabRadioGroup } from "../Components/RadioGroup";
 import { Game } from "../Classes/Game";
 

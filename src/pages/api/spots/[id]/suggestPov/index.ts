@@ -10,9 +10,9 @@ export default handleErrors(
           id: String(id),
         },
         data: {
-          suggestedPovs: {
-            push: req.body,
-          },
+          // suggestedPovs: {
+          //   push: req.body,
+          // },
         },
       });
       return res.json(result);

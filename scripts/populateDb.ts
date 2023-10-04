@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import stoled from "../data/findSkateSpotsFullEntities.json";
-import { FindSkateSpotsFullEntity } from "@/util/Types";
+import { FindSkateSpotsFullEntity } from "../src/util/Types";
 
 const prisma = new PrismaClient();
 
