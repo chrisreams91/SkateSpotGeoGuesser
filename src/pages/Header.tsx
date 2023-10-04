@@ -1,51 +1,51 @@
-import { point, distance } from "@turf/turf";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Spot } from "@prisma/client";
-import { Coords } from "./Types";
+import { Tag } from "../util/Types";
 import { useGlobalState } from "./Context";
-import http from "./Http";
+import http from "../util/Http";
 
-interface Props {
-  spot: Spot | undefined;
-  guess: Coords | undefined;
-}
+interface Props {}
 
-const Header = ({ spot, guess }: Props) => {
-  const [result, setResult] = useState<Number>();
+const Header = ({}: Props) => {
   const [spotVotedToRemove, setSpotVotedToRemove] = useState(false);
   const [state, dispatch] = useGlobalState();
 
-  useEffect(() => {
-    if (guess) {
-      //@ts-ignore
-      const spotPoint = point([spot.coords.lat, spot.coords.lng]);
-      const guessPoint = point([guess.lat || 0, guess.lng || 0]);
-      const calculatedDistance = distance(spotPoint, guessPoint, {
-        units: "miles",
-      });
+  const tagAsFamous = async () => {
+    const { spot } = state;
 
-      setResult(calculatedDistance);
-    }
-  }, [guess]);
+    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.FAMOUS);
+  };
 
-  const tagAsFamous = async () => {};
+  const tagAsCool = async () => {
+    const { spot } = state;
+
+    await http(`/api/spots/${spot?.id}/addTags`, "PUT", Tag.COOL);
+  };
 
   const voteToRemoveSpot = async () => {
-    await http("/api/spots", "PUT", spot);
+    const { spot } = state;
+
+    await http(`/api/spots/${spot?.id}/voteToRemove`, "PUT");
     setSpotVotedToRemove(true);
   };
 
   const suggestSpotPov = async () => {
-    if (state.streetView) {
-      console.log(state.streetView.getPosition());
-      console.log(state.streetView.getPov().heading);
-      console.log(state.streetView.getPov().pitch);
+    const { streetView, spot } = state;
+    if (streetView) {
+      const position = streetView.getPosition();
+      const pov = streetView.getPov();
+
+      const suggestion = {
+        lat: position?.lat(),
+        lng: position?.lng(),
+        heading: pov.heading,
+        pitch: pov.pitch,
+        zoom: streetView.getZoom(),
+      };
+      await http(`/api/spots/${spot?.id}/suggestPov`, "PUT", suggestion);
     }
   };
 
-  const resultText = result ? `${result?.toString()} Miles` : "NA";
-  const guessText = guess ? `${guess?.lat},${guess?.lng}` : "NA";
   return (
     <div
       style={{
@@ -58,27 +58,33 @@ const Header = ({ spot, guess }: Props) => {
         paddingRight: 20,
       }}
     >
-      {spot && (
+      {state.spot && (
         <>
-          <div>
-            <div>Current Guess = {guessText}</div>
-            <div>Distance away = {resultText}</div>
-            <div>Score = TBD</div>
+          <div style={{ margin: "auto" }}>
+            {state.result && (
+              <div style={{ fontSize: 20 }}>
+                Result: {state.result?.toFixed(2).toString()} Miles
+              </div>
+            )}
           </div>
+
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
               <Button colorScheme="blue" onClick={tagAsFamous}>
                 Tag as famous
               </Button>
+              <Button colorScheme="blue" onClick={tagAsCool}>
+                Tag as cool
+              </Button>
               <Button colorScheme="blue" onClick={suggestSpotPov}>
-                Suggest POV for spot
+                Suggest POV
               </Button>
               <Button
                 colorScheme="blue"
                 onClick={voteToRemoveSpot}
                 isDisabled={spotVotedToRemove}
               >
-                Remove Spot From Pool
+                Remove Spot
               </Button>
             </ButtonGroup>
           </div>

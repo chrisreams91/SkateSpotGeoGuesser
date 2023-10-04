@@ -1,22 +1,28 @@
-import { createContext, useReducer, useContext } from "react";
-import { Coords } from "./Types";
+import { createContext, useReducer, useContext, Dispatch } from "react";
+import { Spot } from "@prisma/client";
 
 interface MapContext {
   map?: google.maps.Map;
+  spot?: Spot;
   streetView?: google.maps.StreetViewPanorama;
-  pin?: Coords;
+  guessSpotMapMarker?: google.maps.Marker;
+  actualSpotMarker?: google.maps.Marker;
+  line?: google.maps.Polyline;
+  result?: number;
 }
 
 const mapContext = createContext<MapContext>({});
-const dispatchContext = createContext<any>(undefined);
+const dispatchContext = createContext<
+  Dispatch<Partial<MapContext>> | undefined
+>(undefined);
 
-export const useGlobalState = () => [
-  useContext(mapContext),
-  useContext(dispatchContext),
-];
+export const useGlobalState = (): [
+  MapContext,
+  Dispatch<Partial<MapContext>> | undefined
+] => [useContext(mapContext), useContext(dispatchContext)];
 
 interface Props {
-  children: JSX.Element[];
+  children: JSX.Element;
 }
 
 const ContextProvider = ({ children }: Props) => {

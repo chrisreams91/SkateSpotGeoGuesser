@@ -7,14 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "script": "ts-node ./scripts/populateDb.ts"
+    "populateDb": "ts-node ./scripts/populateDb.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@googlemaps/react-wrapper": "^1.1.35",
-    "@prisma/client": "^4.12.0",
+    "@prisma/client": "^5.3.1",
     "@turf/turf": "^6.5.0",
     "@types/node": "18.15.11",
     "@types/react": "18.0.32",
@@ -23,14 +23,15 @@
     "eslint-config-next": "13.2.4",
     "framer-motion": "^10.10.0",
     "lodash": "^4.17.21",
+    "lottie-react": "^2.4.0",
     "next": "13.2.4",
+    "prisma": "^5.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.0.3"
   },
   "devDependencies": {
     "@types/google.maps": "^3.52.4",
-    "prisma": "^4.12.0",
     "ts-node": "^10.9.1"
   }
 }
