@@ -1,19 +1,14 @@
-import React, { ReactElement, useState, useMemo, useEffect } from "react";
+import React, { ReactElement, useEffect } from "react";
 import Head from "next/head";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import _ from "lodash";
-import StreetView from "./Maps/StreetView";
-import Map from "./Maps/Map";
-import Header from "./Header";
+import StreetView from "./Game/Maps/StreetView";
+import Map from "./Game/Maps/Map";
+import Header from "./Components/Header";
 import { Spot, Pov } from "@prisma/client";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
-import GameSelect from "./Menus/GameSelect";
-import { Game } from "./Classes/Game";
-
-interface SpotWithPov extends Spot {
-  pov: Pov;
-}
+import Menu from "./Menu/Menu";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
@@ -25,7 +20,6 @@ const render = (status: Status): ReactElement => {
 
 const Home = () => {
   const [state, dispatch] = useGlobalState();
-  const [gameStarted, setGameStarted] = useState(true);
 
   useEffect(() => {
     // TODO why is this running twice ( i think it was some local only bug i read some where)
@@ -42,31 +36,17 @@ const Home = () => {
     fetchSpot();
   }, []);
 
-  const startGame = async (game: Game) => {
-    const spot: SpotWithPov = await http("/api/spots");
-    console.log(spot);
-    dispatch!({ spot, game });
-    setGameStarted(true);
-  };
-
   return (
     <>
       <Head>
         <title>Skate Spot GeoGuesser</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
-      <Header />
+      <Menu />
       <Wrapper apiKey={API_KEY || ""} render={render}>
-        {/* {useMemo(
-          () => (
-            <StreetView spot={state.spot} />
-          ),
-          [state.spot]
-        )} */}
-        <GameSelect gameStarted={gameStarted} setGameStarted={startGame} />
-
-        {gameStarted && state.spot && (
+        {state.spot && state.game && !state.game.isCompleted && (
           <>
+            <Header />
             <StreetView spot={state.spot} />
             <Map />
           </>

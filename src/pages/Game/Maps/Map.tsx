@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@chakra-ui/react";
-import { useGlobalState } from "../Context";
+import { useGlobalState } from "../../Context";
 import http from "@/util/Http";
 import { Pov, Spot } from "@prisma/client";
 import { point, distance } from "@turf/turf";
@@ -107,10 +107,7 @@ export const Map = ({}: Props) => {
       line,
       map,
     } = state;
-    const spotPoint = point([
-      Number(spot?.pov?.lat),
-      Number(spot?.pov?.long),
-    ]);
+    const spotPoint = point([Number(spot?.pov?.lat), Number(spot?.pov?.long)]);
     const guessPoint = point([
       Number(guessSpotMapMarker?.getPosition()?.lat()),
       Number(guessSpotMapMarker?.getPosition()?.lng()),
@@ -148,7 +145,17 @@ export const Map = ({}: Props) => {
       spotId: spot?.id,
       // gameId: state.game?.id,
     };
-    await http("/api/guesses", "POST", body);
+    const guessResult = await http("/api/guesses", "POST", body);
+    console.log(state.game);
+    console.log(" - - - ");
+    console.log(" - - - ");
+    console.log(" - - - ");
+
+    state.game?.addGuess(guessResult);
+    console.log(" - - - ");
+    console.log(" - - - ");
+    console.log(" - - - ");
+    // console.log(state.game)
   };
 
   const loadNextSpot = async () => {
@@ -221,7 +228,9 @@ export const Map = ({}: Props) => {
           }}
         >
           <Button colorScheme="blue" onClick={loadNextSpot} size={"lg"}>
-            Next Spot
+            {state.game?.guesses.length === state.game?.guessLimit! - 1
+              ? "Play Again"
+              : "Next Spot"}
           </Button>
         </div>
       )}

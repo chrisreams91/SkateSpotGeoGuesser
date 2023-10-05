@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useReducer, useContext, Dispatch } from "react";
-import { Pov, Spot} from "@prisma/client";
+import { Pov, Spot } from "@prisma/client";
 import { Game } from "./Classes/Game";
 
 interface SpotWithPov extends Spot {

@@ -1,7 +1,18 @@
-export interface Pov extends google.maps.StreetViewPov {
-  zoom: number;
+import { Game } from "@prisma/client";
+
+interface BaseEntity {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
+export type IGame = Omit<Game, keyof BaseEntity> & {
+  isCompleted: boolean;
+}; 
+
+//
+// ENUMS
+//
 export enum Tag {
   FAMOUS = "FAMOUS",
   COOL = "COOL",
@@ -9,7 +20,7 @@ export enum Tag {
   REMOVE = "REMOVE",
 }
 
-export enum GameType {
+export enum GameMode {
   FREEPLAY = "FREEPLAY",
   SCORED_ROUNDS = "SCORED_ROUNDS",
   TIMED_ROUNDS = "TIMED_ROUNDS",
@@ -20,24 +31,8 @@ export enum SpotType {
   ALL = "ALL",
 }
 
-// export interface Game {
-//   user: User;
-//   gameType: GameType;
-//   spotTypes: SpotType;
-//   guesses: Guess[];
-//   score: number;
-// }
-
-export interface Guess {}
-
-// export interface User {
-//   name: string;
-// }
-
-//
 //
 // EXTERNAL
-//
 //
 export interface FindSkateSpotsFullEntity extends FindSkateSpotsSpot {
   id: number;

@@ -53,6 +53,8 @@ model Game {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   score     Int
+  gameType  String?
+  spotType  String
   User      User?    @relation(fields: [userId], references: [id])
   userId    String?  @db.Uuid
   guesses   Guess[]

@@ -4,7 +4,7 @@ interface Props {}
 
 const LeaderBoardWidget = ({}: Props) => {
   return (
-    <div style={{ backgroundColor: "black" }}>
+    <div style={{ backgroundColor: "grey" }}>
       <Heading>LeaderBoard:</Heading>
       <p>player 1</p>
       <p>player 2</p>

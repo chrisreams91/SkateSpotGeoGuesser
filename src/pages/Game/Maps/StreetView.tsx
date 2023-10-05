@@ -1,6 +1,6 @@
 import { Spot, Pov } from "@prisma/client";
 import React, { useEffect, useRef } from "react";
-import { useGlobalState } from "../Context";
+import { useGlobalState } from "../../Context";
 
 interface SpotWithPov extends Spot {
   pov: Pov;
@@ -11,7 +11,7 @@ interface Props {
 
 const StreetView = ({ spot }: Props) => {
   const ref = useRef();
-  const [state, dispatch] = useGlobalState();
+  const [_state, dispatch] = useGlobalState();
 
   useEffect(() => {
     if (spot) {
@@ -33,7 +33,7 @@ const StreetView = ({ spot }: Props) => {
           pov: {
             heading: spot.pov.heading,
             pitch: spot.pov.pitch,
-          }
+          },
         }
       );
       dispatch!({ streetView: streetView });

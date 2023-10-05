@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import {
   Box,
   Button,
@@ -7,41 +7,39 @@ import {
   EditablePreview,
   EditableInput,
 } from "@chakra-ui/react";
-import LeaderBoardWidget from "../Components/LeaderboardWidget";
-import { GameType, SpotType } from "../../util/Types";
+import { GameMode, SpotType } from "../../util/Types";
 import { TabRadioGroup } from "../Components/RadioGroup";
 import { Game } from "../Classes/Game";
+import { useGlobalState } from "../Context";
 
-interface Props {
-  gameStarted: boolean;
-  setGameStarted: (game: Game) => void;
-}
+interface Props {}
 
-const GameSelect = ({ gameStarted, setGameStarted }: Props) => {
-  const [gameType, setGameType] = useState(GameType.FREEPLAY);
+const GameSelect = ({}: Props) => {
+  const [state, dispatch] = useGlobalState();
+  const [gameType, setGameType] = useState(GameMode.FREEPLAY);
   const [spotType, setSpotType] = useState(SpotType.POPULAR);
   const [userName, setUserName] = useState("Anon");
 
   const createAndStartGame = () => {
     const newGame = new Game(userName, gameType, spotType);
-    console.log(newGame);
-    setGameStarted(newGame);
+    console.log("newGame : ", newGame);
+    dispatch!({ game: newGame });
   };
 
   return (
     <>
-      {!gameStarted && (
+      {!state.game && (
         <div style={{ backgroundColor: "gray", height: "90vh" }}>
           <Box>
             <Heading padding={"4"}>Game Type</Heading>
             <TabRadioGroup
               name="Game Type"
               options={[
-                GameType.FREEPLAY,
-                GameType.SCORED_ROUNDS,
-                GameType.TIMED_ROUNDS,
+                GameMode.FREEPLAY,
+                GameMode.SCORED_ROUNDS,
+                GameMode.TIMED_ROUNDS,
               ]}
-              onChange={(value) => setGameType(value as GameType)}
+              onChange={(value) => setGameType(value as GameMode)}
             />
           </Box>
           <Box>
@@ -62,9 +60,6 @@ const GameSelect = ({ gameStarted, setGameStarted }: Props) => {
               />
             </Editable>
           </Box>
-          {/* <div>
-            <LeaderBoardWidget />
-          </div> */}
           <Button onClick={createAndStartGame}>Start</Button>
         </div>
       )}

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Tag } from "../util/Types";
-import { useGlobalState } from "./Context";
-import http from "../util/Http";
+import { Tag } from "../../util/Types";
+import { useGlobalState } from "../Context";
+import http from "../../util/Http";
 
 interface Props {}
 
@@ -23,7 +23,6 @@ const Header = ({}: Props) => {
         pitch: pov.pitch,
         zoom: streetView.getZoom(),
       };
-
 
       await http(`/api/spots/${spot?.id}/updatePov`, "PUT", spotPov);
     }
