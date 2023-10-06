@@ -10,9 +10,8 @@ const LeaderBoardWidget = ({}: Props) => {
 
   useEffect(() => {
     const getTopScores = async () => {
-      const topScores = await http("/api/game");
+      const topScores = await http("/api/games");
       setHighScoreGames(topScores);
-      console.log(topScores);
     };
 
     getTopScores();

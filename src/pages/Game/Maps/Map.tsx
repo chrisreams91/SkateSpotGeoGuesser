@@ -144,7 +144,7 @@ export const Map = ({}: Props) => {
       },
       spotId: spot?.id,
     };
-    const guessResult = await http("/api/guess", "POST", body);
+    const guessResult = await http("/api/guesses", "POST", body);
     state.game?.addGuess(guessResult);
   };
 

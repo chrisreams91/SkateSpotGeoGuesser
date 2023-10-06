@@ -11,13 +11,14 @@ const Menu = ({}: Props) => {
   return (
     <>
       {!state.game && <GameSelect />}
-
       {state.game?.isCompleted && (
         <>
           <div style={{ backgroundColor: "grey" }}>
-            <Heading>Final Score: {state.game.score}</Heading>
+            <Heading>Final Score</Heading>
+            <Heading size={"md"}>
+              {state.game.user} : {state.game.score}
+            </Heading>
             <LeaderBoardWidget />
-            {JSON.stringify(state.game)}
           </div>
           <Button onClick={() => dispatch!({ game: undefined })}>
             Play Again ???
