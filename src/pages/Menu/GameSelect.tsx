@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -18,11 +18,22 @@ const GameSelect = ({}: Props) => {
   const [state, dispatch] = useGlobalState();
   const [gameType, setGameType] = useState(GameType.FREEPLAY);
   const [spotType, setSpotType] = useState(SpotType.POPULAR);
-  const [userName, setUserName] = useState("Anon");
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    const existingUser = window.localStorage.getItem(
+      "skatespotgeoguesser-user"
+    );
+    console.log("existingUser : ", existingUser);
+    if (existingUser) {
+      setUserName(existingUser);
+    } else {
+      setUserName("SkateBoy");
+    }
+  }, []);
 
   const createAndStartGame = () => {
     const newGame = new Game(userName, gameType, spotType);
-    console.log("newGame : ", newGame);
     dispatch!({ game: newGame });
   };
 
@@ -52,12 +63,16 @@ const GameSelect = ({}: Props) => {
           </Box>
           <Box>
             <Heading padding={"4"}>User Name</Heading>
-            <Editable defaultValue={userName}>
+            <Editable
+              defaultValue={userName || "SkateBoy"}
+              value={userName}
+              onChange={(value) => {
+                setUserName(value);
+                window.localStorage.setItem("skatespotgeoguesser-user", value);
+              }}
+            >
               <EditablePreview />
-              <EditableInput
-                value={userName}
-                onChange={(value) => setUserName(value.target.value)}
-              />
+              <EditableInput />
             </Editable>
           </Box>
           <Button onClick={createAndStartGame}>Start</Button>
