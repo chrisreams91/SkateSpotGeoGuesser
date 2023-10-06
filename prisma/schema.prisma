@@ -32,7 +32,7 @@ model Pov {
   pitch     Float
   zoom      Float
   spot      Spot?
-  Guess     Guess[]
+  guess     Guess[]
 }
 
 model Guess {
@@ -44,7 +44,7 @@ model Guess {
   povId            String   @db.Uuid
   spot             Spot?    @relation(fields: [spotId], references: [id])
   spotId           String   @db.Uuid
-  Game             Game?    @relation(fields: [gameId], references: [id])
+  game             Game?    @relation(fields: [gameId], references: [id])
   gameId           String?  @db.Uuid
 }
 
@@ -55,15 +55,16 @@ model Game {
   score     Int
   gameType  String?
   spotType  String
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?  @db.Uuid
+  // user      User?    @relation(fields: [userId], references: [id])
+  // userId    String?  @db.Uuid
+  user      String
   guesses   Guess[]
 }
 
-model User {
-  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
-  games     Game[]
-}
+// model User {
+//   id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   name      String
+//   games     Game[]
+// }

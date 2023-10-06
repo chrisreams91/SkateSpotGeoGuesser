@@ -143,19 +143,9 @@ export const Map = ({}: Props) => {
         ...streetView?.getPov(),
       },
       spotId: spot?.id,
-      // gameId: state.game?.id,
     };
-    const guessResult = await http("/api/guesses", "POST", body);
-    console.log(state.game);
-    console.log(" - - - ");
-    console.log(" - - - ");
-    console.log(" - - - ");
-
+    const guessResult = await http("/api/guess", "POST", body);
     state.game?.addGuess(guessResult);
-    console.log(" - - - ");
-    console.log(" - - - ");
-    console.log(" - - - ");
-    // console.log(state.game)
   };
 
   const loadNextSpot = async () => {
@@ -179,6 +169,13 @@ export const Map = ({}: Props) => {
 
     dispatch!({ spot: nextSpot, result: undefined });
     setMapContainerStyle("map-container");
+  };
+
+  const finishGame = async () => {
+    const { game } = state;
+
+    await http("/api/game", "POST", game);
+    dispatch!({ game });
   };
 
   return (
@@ -227,11 +224,15 @@ export const Map = ({}: Props) => {
             width: "100%",
           }}
         >
-          <Button colorScheme="blue" onClick={loadNextSpot} size={"lg"}>
-            {state.game?.guesses.length === state.game?.guessLimit! - 1
-              ? "Play Again"
-              : "Next Spot"}
-          </Button>
+          {state.game?.guesses.length === state.game?.guessLimit! - 1 ? (
+            <Button colorScheme="blue" onClick={finishGame} size={"lg"}>
+              Results
+            </Button>
+          ) : (
+            <Button colorScheme="blue" onClick={loadNextSpot} size={"lg"}>
+              Next Spot
+            </Button>
+          )}
         </div>
       )}
     </div>

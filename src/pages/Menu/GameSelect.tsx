@@ -7,7 +7,7 @@ import {
   EditablePreview,
   EditableInput,
 } from "@chakra-ui/react";
-import { GameMode, SpotType } from "../../util/Types";
+import { GameType, SpotType } from "../../util/Types";
 import { TabRadioGroup } from "../Components/RadioGroup";
 import { Game } from "../Classes/Game";
 import { useGlobalState } from "../Context";
@@ -16,7 +16,7 @@ interface Props {}
 
 const GameSelect = ({}: Props) => {
   const [state, dispatch] = useGlobalState();
-  const [gameType, setGameType] = useState(GameMode.FREEPLAY);
+  const [gameType, setGameType] = useState(GameType.FREEPLAY);
   const [spotType, setSpotType] = useState(SpotType.POPULAR);
   const [userName, setUserName] = useState("Anon");
 
@@ -35,11 +35,11 @@ const GameSelect = ({}: Props) => {
             <TabRadioGroup
               name="Game Type"
               options={[
-                GameMode.FREEPLAY,
-                GameMode.SCORED_ROUNDS,
-                GameMode.TIMED_ROUNDS,
+                GameType.FREEPLAY,
+                GameType.SCORED_ROUNDS,
+                GameType.TIMED_ROUNDS,
               ]}
-              onChange={(value) => setGameType(value as GameMode)}
+              onChange={(value) => setGameType(value as GameType)}
             />
           </Box>
           <Box>

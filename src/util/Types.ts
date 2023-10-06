@@ -20,7 +20,7 @@ export enum Tag {
   REMOVE = "REMOVE",
 }
 
-export enum GameMode {
+export enum GameType {
   FREEPLAY = "FREEPLAY",
   SCORED_ROUNDS = "SCORED_ROUNDS",
   TIMED_ROUNDS = "TIMED_ROUNDS",

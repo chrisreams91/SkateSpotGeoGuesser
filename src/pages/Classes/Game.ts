@@ -1,19 +1,19 @@
-import { GameMode, SpotType } from "../../util/Types";
+import { GameType, SpotType } from "../../util/Types";
 import { Guess } from "@prisma/client";
 
 export class Game {
   user: string;
-  gameMode: GameMode;
-  spotTypes: SpotType;
+  gameType: GameType;
+  spotType: SpotType;
   guesses: Guess[] = [];
   score: number = 0;
   isCompleted: boolean = false;
-  guessLimit: number = 2;
+  guessLimit: number = 1;
 
-  constructor(user: string, gameMode: GameMode, spotTypes: SpotType) {
+  constructor(user: string, gameType: GameType, spotType: SpotType) {
     this.user = user;
-    this.gameMode = gameMode;
-    this.spotTypes = spotTypes;
+    this.gameType = gameType;
+    this.spotType = spotType;
   }
 
   addGuess(guess: Guess) {
