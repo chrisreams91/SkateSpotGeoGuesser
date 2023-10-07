@@ -34,9 +34,6 @@ export const Map = ({}: Props) => {
     const guessMarker = new google.maps.Marker({
       map,
     });
-    const pos = { lat: state?.spot?.pov?.lat, lng: state?.spot?.pov?.long };
-    // console.log("pos : ", pos);
-    // console.log("state : ", state);
 
     const actualMarker = new google.maps.Marker({
       map,
@@ -97,8 +94,6 @@ export const Map = ({}: Props) => {
   };
 
   const confirmSelection = async () => {
-    // TODO make map unclickable durign this state
-
     const {
       spot,
       actualSpotMarker,
@@ -174,8 +169,8 @@ export const Map = ({}: Props) => {
   const finishGame = async () => {
     const { game } = state;
 
-    await http("/api/game", "POST", game);
-    dispatch!({ game });
+    await http("/api/games", "POST", game);
+    dispatch!({ game, result: undefined });
   };
 
   return (
