@@ -6,6 +6,12 @@ import {
   Editable,
   EditablePreview,
   EditableInput,
+  Center,
+  Flex,
+  Container,
+  Grid,
+  Input,
+  GridItem,
 } from "@chakra-ui/react";
 import { GameType, SpotType } from "../../util/Types";
 import { TabRadioGroup } from "../Components/RadioGroup";
@@ -24,7 +30,7 @@ const GameSelect = ({}: Props) => {
     const existingUser = window.localStorage.getItem(
       "skatespotgeoguesser-user"
     );
-    console.log("existingUser : ", existingUser);
+
     if (existingUser) {
       setUserName(existingUser);
     } else {
@@ -38,47 +44,63 @@ const GameSelect = ({}: Props) => {
   };
 
   return (
-    <>
-      {!state.game && (
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <Box>
-            <Heading padding={"4"}>Game Type</Heading>
-            <TabRadioGroup
-              name="Game Type"
-              options={[
-                GameType.FREEPLAY,
-                GameType.SCORED_ROUNDS,
-                GameType.TIMED_ROUNDS,
-              ]}
-              onChange={(value) => setGameType(value as GameType)}
-            />
-          </Box>
-          <Box>
-            <Heading padding={"4"}>Spot Types</Heading>
-            <TabRadioGroup
-              name="Spot Types"
-              options={[SpotType.POPULAR, SpotType.ALL]}
-              onChange={(value) => setSpotType(value as SpotType)}
-            />
-          </Box>
-          <Box>
-            <Heading padding={"4"}>User Name</Heading>
-            <Editable
-              defaultValue={userName || "SkateBoy"}
-              value={userName}
-              onChange={(value) => {
-                setUserName(value);
-                window.localStorage.setItem("skatespotgeoguesser-user", value);
-              }}
-            >
-              <EditablePreview />
-              <EditableInput />
-            </Editable>
-          </Box>
-          <Button onClick={createAndStartGame}>Start</Button>
-        </div>
-      )}
-    </>
+    <Grid id="gameSelect" gap={20}>
+      {/* Setup different game types later */}
+      {/* <GridItem>
+        <Center>
+          <Heading padding={"4"}>Game Type</Heading>
+        </Center>
+        <Center>
+          <TabRadioGroup
+            name="Game Type"
+            options={[
+              GameType.FREEPLAY,
+              GameType.SCORED_ROUNDS,
+              GameType.TIMED_ROUNDS,
+            ]}
+            onChange={(value) => setGameType(value as GameType)}
+          />
+        </Center>
+      </GridItem> */}
+      <GridItem>
+        <Center>
+          <Heading padding={"4"}>Spot Types</Heading>
+        </Center>
+        <Center>
+          <TabRadioGroup
+            name="Spot Types"
+            options={[SpotType.POPULAR, SpotType.ALL]}
+            onChange={(value) => setSpotType(value as SpotType)}
+          />
+        </Center>
+      </GridItem>
+      <GridItem>
+        <Center>
+          <Heading padding={"4"}>User Name</Heading>
+        </Center>
+        <Center>
+          <Input
+            width={"min-content"}
+            defaultValue={userName || "SkateBoy"}
+            value={userName}
+            onChange={(value) => {
+              setUserName(value.target.value);
+              window.localStorage.setItem(
+                "skatespotgeoguesser-user",
+                value.target.value
+              );
+            }}
+          />
+        </Center>
+      </GridItem>
+      <GridItem>
+        <Center>
+          <Button onClick={createAndStartGame} size={"lg"} px={10} py={3}>
+            Start Game
+          </Button>
+        </Center>
+      </GridItem>
+    </Grid>
   );
 };
 

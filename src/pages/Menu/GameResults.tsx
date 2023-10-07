@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Center, Heading, Stack, Text, Box, VStack } from "@chakra-ui/react";
 import { useGlobalState } from "../Context";
 

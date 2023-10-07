@@ -1,4 +1,4 @@
-import { Center, Heading, Flex, Box } from "@chakra-ui/react";
+import { Center, Heading, Flex, Box, Button } from "@chakra-ui/react";
 import GameSelect from "./GameSelect";
 import LeaderBoard from "./Leaderboard";
 import { useGlobalState } from "../Context";
@@ -13,9 +13,17 @@ const Menu = ({}: Props) => {
     <Box>
       {!state.game && <GameSelect />}
       {state.game?.isCompleted && (
-        <Flex direction={"column"} justify={"flex-end"}>
+        <Flex direction={"column"}>
           <GameResults />
           <LeaderBoard />
+          <Center padding={20}>
+            <Button
+              colorScheme="blue"
+              onClick={() => dispatch!({ game: undefined })}
+            >
+              Play Again
+            </Button>
+          </Center>
         </Flex>
       )}
     </Box>

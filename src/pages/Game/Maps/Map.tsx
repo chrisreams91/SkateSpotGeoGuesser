@@ -5,6 +5,10 @@ import http from "@/util/Http";
 import { Pov, Spot } from "@prisma/client";
 import { point, distance } from "@turf/turf";
 import { checkeredFlag } from "@/util/svgs";
+import {
+  calculateScoreForGuessPrecise,
+  calculateScoreForGuessRough,
+} from "@/util/scoring";
 
 interface Props {}
 
@@ -110,6 +114,7 @@ export const Map = ({}: Props) => {
     const calculatedDistance = distance(spotPoint, guessPoint, {
       units: "miles",
     });
+    const roundedNumber = Math.round(calculatedDistance * 100) / 100;
 
     actualSpotMarker?.setVisible(true);
     line?.setPath([
@@ -128,10 +133,17 @@ export const Map = ({}: Props) => {
     map?.setClickableIcons(false);
     google.maps.event.clearListeners(map!, "click");
 
-    dispatch!({ result: calculatedDistance });
+    dispatch!({ result: roundedNumber });
+
+    const scoreForGuess = calculateScoreForGuessPrecise(roundedNumber);
+    const rough = calculateScoreForGuessRough(roundedNumber);
+    console.log("distance away in miles : ", roundedNumber);
+    console.log("precise : ", scoreForGuess);
+    console.log("rough : ", rough);
 
     const body = {
-      distanceFromSpot: calculatedDistance,
+      distanceFromSpot: roundedNumber,
+      score: scoreForGuess,
       pov: {
         lat: guessSpotMapMarker?.getPosition()?.lat(),
         long: guessSpotMapMarker?.getPosition()?.lng(),
@@ -168,7 +180,6 @@ export const Map = ({}: Props) => {
 
   const finishGame = async () => {
     const { game } = state;
-
     await http("/api/games", "POST", game);
     dispatch!({ game, result: undefined });
   };

@@ -9,7 +9,7 @@ export default handleErrors(
       const result = await prisma.guess.create({
         data: {
           distanceFromSpot: body.distanceFromSpot,
-          score: 0,
+          score: body.score,
           pov: {  
             create: {
               ...body.pov,

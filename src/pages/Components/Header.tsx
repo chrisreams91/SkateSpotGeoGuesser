@@ -83,16 +83,6 @@ const Header = ({}: Props) => {
           </Center>
         </>
       )}
-      {state.game?.isCompleted && (
-        <Center>
-          <Button
-            colorScheme="blue"
-            onClick={() => dispatch!({ game: undefined })}
-          >
-            Play Again
-          </Button>
-        </Center>
-      )}
     </div>
   );
 };
