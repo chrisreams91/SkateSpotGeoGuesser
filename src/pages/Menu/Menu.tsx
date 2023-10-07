@@ -1,7 +1,8 @@
-import { Button, Heading } from "@chakra-ui/react";
+import { Center, Heading, Flex, Box } from "@chakra-ui/react";
 import GameSelect from "./GameSelect";
-import LeaderBoardWidget from "../Components/LeaderboardWidget";
+import LeaderBoard from "./Leaderboard";
 import { useGlobalState } from "../Context";
+import GameResults from "./GameResults";
 
 interface Props {}
 
@@ -9,23 +10,15 @@ const Menu = ({}: Props) => {
   const [state, dispatch] = useGlobalState();
 
   return (
-    <>
+    <Box>
       {!state.game && <GameSelect />}
       {state.game?.isCompleted && (
-        <>
-          <div style={{ backgroundColor: "grey" }}>
-            <Heading>Final Score</Heading>
-            <Heading size={"md"}>
-              {state.game.user} : {state.game.score}
-            </Heading>
-            <LeaderBoardWidget />
-          </div>
-          <Button onClick={() => dispatch!({ game: undefined })}>
-            Play Again ???
-          </Button>
-        </>
+        <Flex direction={"column"} justify={"flex-end"}>
+          <GameResults />
+          <LeaderBoard />
+        </Flex>
       )}
-    </>
+    </Box>
   );
 };
 

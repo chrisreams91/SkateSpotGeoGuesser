@@ -1,19 +1,32 @@
-import { Heading } from "@chakra-ui/react";
-import { Game } from "../Classes/Game";
+import React, { useEffect } from "react";
+import { Center, Heading, Stack, Text, Box, VStack } from "@chakra-ui/react";
+import { useGlobalState } from "../Context";
 
-interface Props {
-  game: Game;
-}
+interface Props {}
 
-const GameResults = ({ game }: Props) => {
+const GameResults = ({}: Props) => {
+  const [state, _dispatch] = useGlobalState();
+  const { game } = state;
+
   return (
-    <>
-      {game.isCompleted && (
-        <div style={{ backgroundColor: "black" }}>
-          <Heading>Final Score: 0</Heading>
-        </div>
-      )}
-    </>
+    <Center>
+      <Stack spacing={3}>
+        <Center>
+          <Heading>Game Results</Heading>
+        </Center>
+        <Center>
+          <Text>Total Score : {game?.score}</Text>
+        </Center>
+        {game?.guesses?.map((guess, index) => (
+          <VStack key={guess.id}>
+            <Text>
+              Guess {index + 1} : {guess.score}
+            </Text>
+          </VStack>
+        ))}
+        <Text>{JSON.stringify(game)}</Text>
+      </Stack>
+    </Center>
   );
 };
 

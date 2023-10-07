@@ -1,14 +1,21 @@
 import { useState } from "react";
-import { Button, ButtonGroup } from "@chakra-ui/react";
-import { Tag } from "../../util/Types";
+import {
+  Button,
+  ButtonGroup,
+  Heading,
+  Center,
+  Text,
+  Table,
+} from "@chakra-ui/react";
 import { useGlobalState } from "../Context";
-import http from "../../util/Http";
+import http from "@/util/Http";
+import { Tag } from "@/util/Types";
 
 interface Props {}
 
 const Header = ({}: Props) => {
   const [spotVotedToRemove, setSpotVotedToRemove] = useState(false);
-  const [state, _dispatch] = useGlobalState();
+  const [state, dispatch] = useGlobalState();
 
   const updatePov = async () => {
     const { streetView, spot } = state;
@@ -48,20 +55,19 @@ const Header = ({}: Props) => {
         paddingRight: 20,
       }}
     >
-      <div style={{}}>
-        <div style={{ fontSize: 20 }}>Skatespot GeoGuesser</div>
-      </div>
-      {console.log("state : ", state)}
+      <Center>
+        <Heading>Skatespot GeoGuesser</Heading>
+      </Center>
       {state.spot && state.game && !state.game.isCompleted && (
         <>
-          <div style={{ margin: "auto" }}>
-            {state.result && (
-              <div style={{ fontSize: 20 }}>
+          {state.result && (
+            <Center>
+              <Text fontSize="2xl">
                 Result: {state.result?.toFixed(2).toString()} Miles
-              </div>
-            )}
-          </div>
-          <div style={{ display: "flex", alignItems: "center" }}>
+              </Text>
+            </Center>
+          )}
+          <Center>
             <ButtonGroup>
               <Button colorScheme="blue" onClick={updatePov}>
                 Update POV
@@ -74,8 +80,18 @@ const Header = ({}: Props) => {
                 Remove Spot
               </Button>
             </ButtonGroup>
-          </div>
+          </Center>
         </>
+      )}
+      {state.game?.isCompleted && (
+        <Center>
+          <Button
+            colorScheme="blue"
+            onClick={() => dispatch!({ game: undefined })}
+          >
+            Play Again
+          </Button>
+        </Center>
       )}
     </div>
   );
