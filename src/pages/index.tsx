@@ -42,11 +42,11 @@ const Home = () => {
         <title>Skate Spot GeoGuesser</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
+      <Header />
       <Menu />
       <Wrapper apiKey={API_KEY || ""} render={render}>
         {state.spot && state.game && !state.game.isCompleted && (
           <>
-            <Header />
             <StreetView spot={state.spot} />
             <Map />
           </>

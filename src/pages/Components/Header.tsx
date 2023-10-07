@@ -48,7 +48,11 @@ const Header = ({}: Props) => {
         paddingRight: 20,
       }}
     >
-      {state.spot && (
+      <div style={{}}>
+        <div style={{ fontSize: 20 }}>Skatespot GeoGuesser</div>
+      </div>
+      {console.log("state : ", state)}
+      {state.spot && state.game && !state.game.isCompleted && (
         <>
           <div style={{ margin: "auto" }}>
             {state.result && (
@@ -57,7 +61,6 @@ const Header = ({}: Props) => {
               </div>
             )}
           </div>
-
           <div style={{ display: "flex", alignItems: "center" }}>
             <ButtonGroup>
               <Button colorScheme="blue" onClick={updatePov}>

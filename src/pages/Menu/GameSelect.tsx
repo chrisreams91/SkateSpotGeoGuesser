@@ -40,7 +40,7 @@ const GameSelect = ({}: Props) => {
   return (
     <>
       {!state.game && (
-        <div style={{ backgroundColor: "gray", height: "90vh" }}>
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <Box>
             <Heading padding={"4"}>Game Type</Heading>
             <TabRadioGroup
