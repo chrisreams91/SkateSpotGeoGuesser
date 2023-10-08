@@ -3,11 +3,11 @@ import { Button, Box } from "@chakra-ui/react";
 import { useGlobalState } from "../../Context";
 import http from "@/util/Http";
 import { point, distance } from "@turf/turf";
-import { checkeredFlag } from "@/util/svgs";
+import { checkeredFlag } from "@/util/Svgs";
 import {
   calculateScoreForGuessPrecise,
   calculateScoreForGuessRough,
-} from "@/util/scoring";
+} from "@/util/Scoring";
 import { SpotWithPov } from "@/util/Types";
 
 interface Props {}
@@ -172,13 +172,14 @@ export const Map = ({}: Props) => {
     map?.addListener("click", mapOnClick);
 
     dispatch!({ spot: nextSpot, result: undefined });
+    console.log("next spot : ", nextSpot);
     setMapContainerStyle("map-container");
   };
 
   const finishGame = async () => {
     const { game } = state;
     await http("/api/games", "POST", game);
-    dispatch!({ game, result: undefined });
+    dispatch!({ game, result: undefined, spot: undefined });
   };
 
   return (

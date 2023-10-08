@@ -3,9 +3,6 @@ import {
   Box,
   Button,
   Heading,
-  Editable,
-  EditablePreview,
-  EditableInput,
   Center,
   Flex,
   Container,
@@ -13,10 +10,11 @@ import {
   Input,
   GridItem,
 } from "@chakra-ui/react";
-import { GameType, SpotType } from "../../util/Types";
-import { TabRadioGroup } from "../../Components/RadioGroup";
-import { Game } from "../../Classes/Game";
+import { GameType, SpotType, SpotWithPov } from "../../util/Types";
+import { TabRadioGroup } from "../../components/RadioGroup";
+import { Game } from "../../classes/Game";
 import { useGlobalState } from "../Context";
+import http from "@/util/Http";
 
 interface Props {}
 
@@ -36,6 +34,16 @@ const GameSelect = ({}: Props) => {
     } else {
       setUserName("SkateBoy");
     }
+  }, []);
+
+  useEffect(() => {
+    const fetchSpot = async () => {
+      const spot: SpotWithPov = await http("/api/spots");
+      console.log("gameselect useEffect", spot);
+      dispatch!({ spot });
+    };
+
+    fetchSpot();
   }, []);
 
   const createAndStartGame = () => {
@@ -95,7 +103,13 @@ const GameSelect = ({}: Props) => {
       </GridItem>
       <GridItem>
         <Center>
-          <Button onClick={createAndStartGame} size={"lg"} px={10} py={3}>
+          <Button
+            colorScheme="blue"
+            onClick={createAndStartGame}
+            size={"lg"}
+            px={10}
+            py={3}
+          >
             Start Game
           </Button>
         </Center>

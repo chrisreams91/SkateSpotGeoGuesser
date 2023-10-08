@@ -2,12 +2,12 @@ import React, { ReactElement, useEffect } from "react";
 import Head from "next/head";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import _ from "lodash";
-import StreetView from "./Game/Maps/StreetView";
-import Map from "./Game/Maps/Map";
-import Header from "../Components/Header";
+import StreetView from "./game/maps/StreetView";
+import Map from "./game/maps/Map";
+import Header from "../components/Header";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
-import Menu from "./Menu/Menu";
+import Menu from "./menu/Menu";
 import { SpotWithPov } from "@/util/Types";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
@@ -21,15 +21,6 @@ const render = (status: Status): ReactElement => {
 const Home = () => {
   const [state, dispatch] = useGlobalState();
 
-  useEffect(() => {
-    const fetchSpot = async () => {
-      const spot: SpotWithPov = await http("/api/spots");
-      dispatch!({ spot });
-    };
-
-    fetchSpot();
-  }, []);
-
   return (
     <>
       <Head>
@@ -41,7 +32,7 @@ const Home = () => {
       <Wrapper apiKey={API_KEY || ""} render={render}>
         {state.spot && state.game && !state.game.isCompleted && (
           <>
-            <StreetView spot={state.spot} />
+            <StreetView />
             <Map />
           </>
         )}

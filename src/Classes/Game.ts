@@ -8,7 +8,7 @@ export class Game {
   guesses: Guess[] = [];
   score: number = 0;
   isCompleted: boolean = false;
-  guessLimit: number = 2;
+  guessLimit: number = 5;
 
   constructor(user: string, gameType: GameType, spotType: SpotType) {
     this.user = user;

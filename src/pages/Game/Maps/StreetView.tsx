@@ -3,16 +3,15 @@ import { useGlobalState } from "../../Context";
 import { Box } from "@chakra-ui/react";
 import { SpotWithPov } from "@/util/Types";
 
-interface Props {
-  spot: SpotWithPov | undefined;
-}
+interface Props {}
 
-const StreetView = ({ spot }: Props) => {
+const StreetView = ({}: Props) => {
   const ref = useRef();
-  const [_state, dispatch] = useGlobalState();
+  const [state, dispatch] = useGlobalState();
 
   useEffect(() => {
-    if (spot) {
+    if (state.spot) {
+      const { spot } = state;
       const streetView = new window.google.maps.StreetViewPanorama(
         // @ts-ignore
         ref.current,
@@ -36,7 +35,7 @@ const StreetView = ({ spot }: Props) => {
       );
       dispatch!({ streetView: streetView });
     }
-  }, [dispatch, spot]);
+  }, [dispatch, state.spot]);
 
   return (
     <Box

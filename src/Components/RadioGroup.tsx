@@ -19,8 +19,6 @@ export const TabRadioGroup = ({ options, onChange, name }: Props) => {
     <HStack {...group}>
       {options.map((value) => {
         const radio = getRadioProps({ value });
-        const x = "y";
-
         return (
           <RadioCard key={value} {...radio}>
             {value}
