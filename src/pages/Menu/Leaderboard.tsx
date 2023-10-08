@@ -34,17 +34,15 @@ const LeaderBoard = ({}: Props) => {
   }, []);
 
   return (
-    <Box>
-      <Center>
-        <Heading>Leaderboard</Heading>
-      </Center>
-      <TableContainer>
-        <Table variant="simple" size={"lg"}>
+    <Flex justify={"center"}>
+      <TableContainer id="container" width={"90vh"}>
+        <Table>
+          <TableCaption placement="top">Leaderboard</TableCaption>
           <Thead>
             <Tr>
               <Th>Name</Th>
-              <Th>Score</Th>
-              <Th>Date</Th>
+              <Th isNumeric>Score</Th>
+              <Th isNumeric>Date</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -53,15 +51,15 @@ const LeaderBoard = ({}: Props) => {
               return (
                 <Tr key={game.id}>
                   <Td>{game.user}</Td>
-                  <Td> {game.score}</Td>
-                  <Td> {date.toDateString()}</Td>
+                  <Td isNumeric>{game.score}</Td>
+                  <Td isNumeric>{date.toDateString()}</Td>
                 </Tr>
               );
             })}
           </Tbody>
         </Table>
       </TableContainer>
-    </Box>
+    </Flex>
   );
 };
 
