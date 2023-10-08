@@ -1,11 +1,12 @@
 import { PrismaClient } from "@prisma/client";
-import stoled from "../data/findSkateSpotsFullEntities.json";
+// import stoled from "../data/findSkateSpotsFullEntities.json";
 import { FindSkateSpotsFullEntity } from "../src/util/Types";
 
 const prisma = new PrismaClient();
 
 const main = async () => {
-  const findskatespots = stoled as FindSkateSpotsFullEntity[];
+  // const findskatespots = stoled as FindSkateSpotsFullEntity[];
+  const findskatespots: FindSkateSpotsFullEntity[] =[];
   let i = 0;
   for (const spot of findskatespots) {
     await prisma.spot.create({
