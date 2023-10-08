@@ -7,7 +7,8 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "populateDb": "ts-node ./scripts/populateDb.ts"
+    "populateDb": "ts-node ./scripts/populateDb.ts",
+    "tagSaintLouis": "ts-node ./scripts/tagSaintLouisSpots.ts" 
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.5",

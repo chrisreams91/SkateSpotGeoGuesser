@@ -7,6 +7,7 @@ export enum Tag {
   FAMOUS = "FAMOUS",
   REMOVE = "REMOVE",
   EUROPE = "EUROPE",
+  STL_AREA = "STL_AREA",
 }
 
 export enum GameType {
