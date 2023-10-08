@@ -16,7 +16,7 @@ import {
   Td,
   Flex,
 } from "@chakra-ui/react";
-import http from "@/util/Http";
+import http from "@/util/Http1";
 import { Game } from "@prisma/client";
 
 interface Props {}

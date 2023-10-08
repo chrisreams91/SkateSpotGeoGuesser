@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Button, Box } from "@chakra-ui/react";
 import { useGlobalState } from "../../Context";
-import http from "@/util/Http";
+import http from "@/util/Http1";
 import { point, distance } from "@turf/turf";
-import { checkeredFlag } from "@/util/Svgs";
+import { checkeredFlag } from "@/util/Svgs1";
 import {
   calculateScoreForGuessPrecise,
   calculateScoreForGuessRough,
-} from "@/util/Scoring";
-import { SpotWithPov } from "@/util/Types";
+} from "@/util/Scoring1";
+import { SpotWithPov } from "@/util/Types1";
 
 interface Props {}
 

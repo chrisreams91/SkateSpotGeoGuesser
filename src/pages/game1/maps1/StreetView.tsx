@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useGlobalState } from "../../Context";
 import { Box } from "@chakra-ui/react";
-import { SpotWithPov } from "@/util/Types";
+import { SpotWithPov } from "@/util/Types1";
 
 interface Props {}
 

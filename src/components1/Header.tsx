@@ -9,8 +9,8 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useGlobalState } from "../pages/Context";
-import http from "@/util/Http";
-import { Tag } from "@/util/Types";
+import http from "@/util/Http1";
+import { Tag } from "@/util/Types1";
 
 interface Props {}
 

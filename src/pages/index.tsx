@@ -6,9 +6,9 @@ import StreetView from "./game1/maps1/StreetView";
 import Map from "./game1/maps1/Map";
 import Header from "../components1/Header";
 import { useGlobalState } from "./Context";
-import http from "../util/Http";
+import http from "../util/Http1";
 import Menu from "./menu1/Menu";
-import { SpotWithPov } from "@/util/Types";
+import { SpotWithPov } from "@/util/Types1";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 

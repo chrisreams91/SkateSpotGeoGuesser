@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 // import stoled from "../data/FullEntities.json";
-import { FullEntity } from "../src/util/Types";
+import { FullEntity } from "../src/util/Types1";
 
 const prisma = new PrismaClient();
 
