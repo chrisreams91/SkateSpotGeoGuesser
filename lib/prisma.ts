@@ -10,7 +10,7 @@ export const handleErrors = (
     try {
       await routeHandler(req, res);
     } catch (error) {
-      if (process.env.NODE_ENV === "development") {
+      // if (process.env.NODE_ENV === "development") {
         if (
           error instanceof Prisma.PrismaClientInitializationError ||
           error instanceof Prisma.PrismaClientKnownRequestError ||
@@ -29,9 +29,9 @@ export const handleErrors = (
           return res.status(503).json(betterError);
         }
         return res.status(503).json({ type: "Non Prisma Error", error: error });
-      } else {
-        return res.status(503).json({ error: true });
-      }
+      // } else {
+      //   return res.status(503).json({ error: true });
+      // }
     }
   };
 };
