@@ -17,8 +17,6 @@ export class Game {
   }
 
   addGuess(guess: Guess) {
-    const scoreForGuess = this.calculateScoreForGuess(guess);
-    this.score += scoreForGuess;
     this.guesses.push(guess);
 
     if (this.guesses.length === this.guessLimit ){ 
@@ -27,13 +25,9 @@ export class Game {
     }
   }
 
-  calculateScoreForGuess(guess: Guess) {
-    return guess.distanceFromSpot;
-  }
-
   calculateScoreForGame() {
     this.score = this.guesses.reduce((acc, guess) => {
-      return acc + guess.distanceFromSpot;
+      return acc + guess.score;
     }, 0);
   }
 }

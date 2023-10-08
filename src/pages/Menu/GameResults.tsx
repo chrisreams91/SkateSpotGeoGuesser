@@ -24,7 +24,6 @@ const GameResults = ({}: Props) => {
             </Text>
           </VStack>
         ))}
-        <Text>{JSON.stringify(game)}</Text>
       </Stack>
     </Center>
   );
