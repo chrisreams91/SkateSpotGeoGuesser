@@ -8,17 +8,23 @@ export enum Tag {
   REMOVE = "REMOVE",
   EUROPE = "EUROPE",
   STL_AREA = "STL_AREA",
+  POPULAR = "POPULAR",
+  ALL = "ALL",
+}
+
+export enum SpotType {
+  FAMOUS = "FAMOUS",
+  REMOVE = "REMOVE",
+  EUROPE = "EUROPE",
+  STL_AREA = "STL_AREA",
+  POPULAR = "POPULAR",
+  ALL = "ALL",
 }
 
 export enum GameType {
   FREEPLAY = "FREEPLAY",
   SCORED_ROUNDS = "SCORED_ROUNDS",
   TIMED_ROUNDS = "TIMED_ROUNDS",
-}
-
-export enum SpotType {
-  POPULAR = "POPULAR",
-  ALL = "ALL",
 }
 
 // EXTERNAL

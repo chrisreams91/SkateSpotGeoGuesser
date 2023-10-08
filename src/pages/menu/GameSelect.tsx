@@ -35,7 +35,7 @@ const GameSelect = ({}: Props) => {
   }, []);
 
   const createAndStartGame = async () => {
-    const spot: SpotWithPov = await http("/api/spots");
+    const spot: SpotWithPov = await http("/api/spots?spotType=" + spotType);
 
     const newGame = new Game(userName, gameType, spotType);
     console.log("createAndStartGame : ", spot);
@@ -69,7 +69,7 @@ const GameSelect = ({}: Props) => {
         <Center>
           <TabRadioGroup
             name="Spot Types"
-            options={[SpotType.POPULAR, SpotType.ALL]}
+            options={[SpotType.POPULAR, SpotType.ALL, SpotType.STL_AREA]}
             onChange={(value) => setSpotType(value as SpotType)}
           />
         </Center>

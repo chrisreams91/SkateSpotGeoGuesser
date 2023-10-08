@@ -156,9 +156,12 @@ export const Map = ({}: Props) => {
   };
 
   const loadNextSpot = async () => {
-    const { actualSpotMarker, guessSpotMapMarker, line, map } = state;
+    const { actualSpotMarker, guessSpotMapMarker, line, map, game } = state;
 
-    const nextSpot: SpotWithPov = await http("/api/spots");
+    const nextSpot: SpotWithPov = await http(
+      "/api/spots?spotType=" + game?.spotType
+    );
+
     guessSpotMapMarker?.setVisible(false);
     setHasGuessed(false);
     state.actualSpotMarker?.setVisible(false);
