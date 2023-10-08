@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { GameType, SpotType } from "../../util/Types";
 import { TabRadioGroup } from "../Components/RadioGroup";
-import { Game } from "../Classes/Game";
+import { Game } from "../../Classes/Game";
 import { useGlobalState } from "../Context";
 
 interface Props {}

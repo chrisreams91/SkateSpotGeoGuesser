@@ -1,6 +1,6 @@
 import React from "react";
 import { createContext, useReducer, useContext, Dispatch } from "react";
-import { Game } from "./Classes/Game";
+import { Game } from "../Classes/Game";
 import { SpotWithPov } from "@/util/Types";
 
 interface MapContext {
