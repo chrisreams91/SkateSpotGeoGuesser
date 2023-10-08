@@ -22,8 +22,6 @@ const Home = () => {
   const [state, dispatch] = useGlobalState();
 
   useEffect(() => {
-    // TODO why is this running twice ( i think it was some local only bug i read some where)
-
     const fetchSpot = async () => {
       const spot: SpotWithPov = await http("/api/spots");
       dispatch!({ spot });
