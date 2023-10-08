@@ -1,10 +1,8 @@
-import { Spot, Pov } from "@prisma/client";
 import React, { useEffect, useRef } from "react";
 import { useGlobalState } from "../../Context";
+import { Box } from "@chakra-ui/react";
+import { SpotWithPov } from "@/util/Types";
 
-interface SpotWithPov extends Spot {
-  pov: Pov;
-}
 interface Props {
   spot: SpotWithPov | undefined;
 }
@@ -41,11 +39,11 @@ const StreetView = ({ spot }: Props) => {
   }, [dispatch, spot]);
 
   return (
-    <div
+    <Box
       // @ts-ignore
       ref={ref}
       id="street-view"
-      style={{ height: "90vh" }}
+      height={"90vh"}
     />
   );
 };

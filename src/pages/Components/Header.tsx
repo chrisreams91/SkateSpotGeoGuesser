@@ -6,6 +6,7 @@ import {
   Center,
   Text,
   Table,
+  Box,
 } from "@chakra-ui/react";
 import { useGlobalState } from "../Context";
 import http from "@/util/Http";
@@ -44,7 +45,7 @@ const Header = ({}: Props) => {
   };
 
   return (
-    <div
+    <Box
       style={{
         color: "white",
         backgroundColor: "black",
@@ -83,7 +84,7 @@ const Header = ({}: Props) => {
           </Center>
         </>
       )}
-    </div>
+    </Box>
   );
 };
 

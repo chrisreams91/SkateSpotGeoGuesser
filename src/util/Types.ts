@@ -1,14 +1,9 @@
-import { Game } from "@prisma/client";
+import { Spot, Pov } from "@prisma/client";
+import { type } from "os";
 
-interface BaseEntity {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
+export interface SpotWithPov extends Spot {
+  pov: Pov;
 }
-
-export type IGame = Omit<Game, keyof BaseEntity> & {
-  isCompleted: boolean;
-}; 
 
 //
 // ENUMS

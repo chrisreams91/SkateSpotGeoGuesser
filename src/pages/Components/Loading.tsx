@@ -1,11 +1,11 @@
 import { useState } from "react";
-
+import { Box } from "@chakra-ui/react";
 interface Props {}
 
 const Loading = ({}: Props) => {
   const [loading, setLoading] = useState(true);
 
-  return <div style={{ backgroundColor: "black" }}></div>;
+  return <Box style={{ backgroundColor: "black" }}></Box>;
 };
 
 export default Loading;

@@ -1,9 +1,11 @@
+import { Box } from "@chakra-ui/react";
+
 interface Props {}
 
 const Game = ({}: Props) => {
   return (
     <>
-      <div>GAME</div>
+      <Box>GAME</Box>
     </>
   );
 };

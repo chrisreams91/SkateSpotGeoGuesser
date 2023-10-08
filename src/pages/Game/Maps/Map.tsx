@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Button } from "@chakra-ui/react";
+import { Button, Box } from "@chakra-ui/react";
 import { useGlobalState } from "../../Context";
 import http from "@/util/Http";
-import { Pov, Spot } from "@prisma/client";
 import { point, distance } from "@turf/turf";
 import { checkeredFlag } from "@/util/svgs";
 import {
   calculateScoreForGuessPrecise,
   calculateScoreForGuessRough,
 } from "@/util/scoring";
+import { SpotWithPov } from "@/util/Types";
 
 interface Props {}
 
@@ -158,9 +158,6 @@ export const Map = ({}: Props) => {
   const loadNextSpot = async () => {
     const { actualSpotMarker, guessSpotMapMarker, line, map } = state;
 
-    interface SpotWithPov extends Spot {
-      pov: Pov;
-    }
     const nextSpot: SpotWithPov = await http("/api/spots");
     guessSpotMapMarker?.setVisible(false);
     state.actualSpotMarker?.setVisible(false);
@@ -185,7 +182,7 @@ export const Map = ({}: Props) => {
   };
 
   return (
-    <div
+    <Box
       // can i do all styles including on hover in code?
       id={mapContainerStyle}
       style={
@@ -204,13 +201,14 @@ export const Map = ({}: Props) => {
             }
       }
     >
-      <div
+      <Box
         // @ts-ignore
         ref={ref}
-        id="map"
+        height={"100%"}
+        width={"100%"}
       />
       {mapContainerStyle == "map-container" ? (
-        <div style={{ display: "flex", justifyContent: "center", padding: 5 }}>
+        <Box style={{ display: "flex", justifyContent: "center", padding: 5 }}>
           <Button
             colorScheme="blue"
             onClick={confirmSelection}
@@ -220,9 +218,9 @@ export const Map = ({}: Props) => {
           >
             Confirm
           </Button>
-        </div>
+        </Box>
       ) : (
-        <div
+        <Box
           style={{
             position: "absolute",
             bottom: "20px",
@@ -239,9 +237,9 @@ export const Map = ({}: Props) => {
               Next Spot
             </Button>
           )}
-        </div>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 
