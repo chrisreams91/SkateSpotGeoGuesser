@@ -160,6 +160,7 @@ export const Map = ({}: Props) => {
 
     const nextSpot: SpotWithPov = await http("/api/spots");
     guessSpotMapMarker?.setVisible(false);
+    setHasGuessed(false);
     state.actualSpotMarker?.setVisible(false);
     actualSpotMarker?.setPosition({
       lat: nextSpot.pov.lat,

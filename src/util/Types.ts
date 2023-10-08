@@ -1,18 +1,12 @@
 import { Spot, Pov } from "@prisma/client";
-import { type } from "os";
-
 export interface SpotWithPov extends Spot {
   pov: Pov;
 }
 
-//
-// ENUMS
-//
 export enum Tag {
   FAMOUS = "FAMOUS",
-  COOL = "COOL",
-  POPULAR = "POPULAR",
   REMOVE = "REMOVE",
+  EUROPE = "EUROPE",
 }
 
 export enum GameType {
@@ -26,9 +20,7 @@ export enum SpotType {
   ALL = "ALL",
 }
 
-//
 // EXTERNAL
-//
 export interface FullEntity extends ExternalSpot {
   id: number;
   title: string;
@@ -39,6 +31,7 @@ export interface FullEntity extends ExternalSpot {
   streetName: string;
   postalCode: string;
   formattedAddress: string;
+  geohash: string;
   area: string;
   latitude: number;
   longitude: number;
@@ -55,5 +48,7 @@ export interface ExternalSpot {
     slug: string;
     city: string;
     state: string;
+    stateShort: string;
+    country: string;
   };
 }

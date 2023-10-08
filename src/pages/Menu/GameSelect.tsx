@@ -22,7 +22,7 @@ const GameSelect = ({}: Props) => {
   const [state, dispatch] = useGlobalState();
   const [gameType, setGameType] = useState(GameType.FREEPLAY);
   const [spotType, setSpotType] = useState(SpotType.POPULAR);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState("SkateBoy");
 
   useEffect(() => {
     const existingUser = window.localStorage.getItem(
@@ -31,24 +31,16 @@ const GameSelect = ({}: Props) => {
 
     if (existingUser) {
       setUserName(existingUser);
-    } else {
-      setUserName("SkateBoy");
     }
   }, []);
 
-  useEffect(() => {
-    const fetchSpot = async () => {
-      const spot: SpotWithPov = await http("/api/spots");
-      console.log("gameselect useEffect", spot);
-      dispatch!({ spot });
-    };
+  const createAndStartGame = async () => {
+    const spot: SpotWithPov = await http("/api/spots");
 
-    fetchSpot();
-  }, []);
-
-  const createAndStartGame = () => {
     const newGame = new Game(userName, gameType, spotType);
-    dispatch!({ game: newGame });
+    console.log("createAndStartGame : ", spot);
+
+    dispatch!({ game: newGame, spot });
   };
 
   return (
@@ -89,7 +81,6 @@ const GameSelect = ({}: Props) => {
         <Center>
           <Input
             width={"min-content"}
-            defaultValue={userName || "SkateBoy"}
             value={userName}
             onChange={(value) => {
               setUserName(value.target.value);
