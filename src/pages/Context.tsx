@@ -1,7 +1,7 @@
 import React from "react";
 import { createContext, useReducer, useContext, Dispatch } from "react";
 import { Game } from "../classes1/Game";
-import { SpotWithPov } from "@/util/Types1";
+import { SpotWithPov } from "@/util/Types";
 
 interface MapContext {
   map?: google.maps.Map;

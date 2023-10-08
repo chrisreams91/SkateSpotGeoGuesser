@@ -10,11 +10,11 @@ import {
   Input,
   GridItem,
 } from "@chakra-ui/react";
-import { GameType, SpotType, SpotWithPov } from "../../util/Types1";
+import { GameType, SpotType, SpotWithPov } from "../../util/Types";
 import { TabRadioGroup } from "../../components1/RadioGroup";
 import { Game } from "../../classes1/Game";
 import { useGlobalState } from "../Context";
-import http from "@/util/Http1";
+import http from "@/util/Http";
 
 interface Props {}
 

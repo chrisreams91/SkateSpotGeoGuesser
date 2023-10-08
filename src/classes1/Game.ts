@@ -1,4 +1,4 @@
-import { GameType, SpotType } from "../util/Types1";
+import { GameType, SpotType } from "../util/Types";
 import { Guess } from "@prisma/client";
 
 export class Game {
