@@ -8,7 +8,7 @@ import {
   Table,
   Box,
 } from "@chakra-ui/react";
-import { useGlobalState } from "../Context";
+import { useGlobalState } from "../pages/Context";
 import http from "@/util/Http";
 import { Tag } from "@/util/Types";
 

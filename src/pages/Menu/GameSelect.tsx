@@ -14,7 +14,7 @@ import {
   GridItem,
 } from "@chakra-ui/react";
 import { GameType, SpotType } from "../../util/Types";
-import { TabRadioGroup } from "../Components/RadioGroup";
+import { TabRadioGroup } from "../../Components/RadioGroup";
 import { Game } from "../../Classes/Game";
 import { useGlobalState } from "../Context";
 
