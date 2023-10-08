@@ -2,12 +2,12 @@ import React, { ReactElement, useEffect } from "react";
 import Head from "next/head";
 import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import _ from "lodash";
-import StreetView from "./game/maps/StreetView";
-import Map from "./game/maps/Map";
+import StreetView from "./game1/maps1/StreetView";
+import Map from "./game1/maps1/Map";
 import Header from "../components1/Header";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
-import Menu from "./menu/Menu";
+import Menu from "./menu1/Menu";
 import { SpotWithPov } from "@/util/Types";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
