@@ -4,7 +4,7 @@ import { Wrapper, Status } from "@googlemaps/react-wrapper";
 import _ from "lodash";
 import StreetView from "./game1/maps1/StreetView";
 import Map from "./game1/maps1/Map";
-import Header from "../components1/Header";
+import Header from "../components/Header";
 import { useGlobalState } from "./Context";
 import http from "../util/Http";
 import Menu from "./menu1/Menu";
