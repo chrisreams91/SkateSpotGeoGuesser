@@ -29,7 +29,7 @@ export enum SpotType {
 //
 // EXTERNAL
 //
-export interface FindSkateSpotsFullEntity extends FindSkateSpotsSpot {
+export interface FullEntity extends ExternalSpot {
   id: number;
   title: string;
   description: string;
@@ -47,7 +47,7 @@ export interface FindSkateSpotsFullEntity extends FindSkateSpotsSpot {
   photos: any[];
 }
 
-export interface FindSkateSpotsSpot {
+export interface ExternalSpot {
   videoCount: string;
   photoCount: string;
   slug: string;

@@ -43,3 +43,5 @@ config.json
 examples
 TODO.md
 NOTES.md
+createFindSkateSpotsData.ts
+scripts/createFindSkateSpotsData

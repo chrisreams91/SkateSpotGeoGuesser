@@ -2,7 +2,7 @@ import { writeFile, readFile } from "fs/promises";
 import axios from "axios";
 import { Spot } from "@prisma/client";
 import _ from "lodash";
-import { FindSkateSpotsSpot } from "@/util/Types";
+import { ExternalSpot } from "@/util/Types";
 
 const pinsUrl = `https://findskatespots.com/api/map/pins?ymax=89.83663894356722&xmax=566.7187500000001&ymin=-83.52016238353204&xmin=-479.53125000000006&zoom=0`;
 
@@ -51,7 +51,7 @@ const buildFullSpots = async () => {
       encoding: "utf8",
     }
   );
-  const stoppingPlace: FindSkateSpotsSpot[] = JSON.parse(alreadyFetchedSpots);
+  const stoppingPlace: ExternalSpot[] = JSON.parse(alreadyFetchedSpots);
 
   const failures = [];
   let fullSpots = [];
