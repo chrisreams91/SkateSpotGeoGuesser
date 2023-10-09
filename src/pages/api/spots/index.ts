@@ -46,6 +46,12 @@ const buildWhereClause = (spotType: string | string[]) => {
           gt: 10,
         },
       };
+    case Tag.NOT_UNITED_STATES:
+      return {
+        country: {
+          not: "United States",
+        },
+      };
     case Tag.STL_AREA:
       return {
         tags: {

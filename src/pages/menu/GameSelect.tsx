@@ -69,7 +69,12 @@ const GameSelect = ({}: Props) => {
         <Center>
           <TabRadioGroup
             name="Spot Types"
-            options={[SpotType.POPULAR, SpotType.ALL, SpotType.STL_AREA]}
+            options={[
+              SpotType.POPULAR,
+              SpotType.ALL,
+              SpotType.STL_AREA,
+              SpotType.NOT_UNITED_STATES,
+            ]}
             onChange={(value) => setSpotType(value as SpotType)}
           />
         </Center>

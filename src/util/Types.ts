@@ -4,6 +4,7 @@ export interface SpotWithPov extends Spot {
 }
 
 export enum Tag {
+  NOT_UNITED_STATES = "NOT_UNITED_STATES",
   FAMOUS = "FAMOUS",
   REMOVE = "REMOVE",
   EUROPE = "EUROPE",
@@ -13,6 +14,7 @@ export enum Tag {
 }
 
 export enum SpotType {
+  NOT_UNITED_STATES = "NOT_UNITED_STATES",
   FAMOUS = "FAMOUS",
   REMOVE = "REMOVE",
   EUROPE = "EUROPE",
