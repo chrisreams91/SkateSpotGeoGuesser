@@ -7,13 +7,13 @@ export default handleErrors(
     if (req.method == "GET") {
       if (req.query.spotType) {
         const { spotType } = req.query;
-        console.log("spotType : ", spotType);
+        // console.log("spotType : ", spotType);
 
         const whereClause = buildWhereClause(req.query.spotType);
-        console.log("whereClause : ", whereClause);
+        // console.log("whereClause : ", whereClause);
 
         const count = await prisma.spot.count({ where: whereClause });
-        console.log("count : ", count);
+        // console.log("count : ", count);
 
         const skip = Math.max(0, Math.floor(Math.random() * count));
         const result = await prisma.spot.findFirst({
@@ -35,7 +35,7 @@ const buildWhereClause = (spotType: string | string[]) => {
   const filters = Array.isArray(spotType) ? spotType : [spotType];
   // handle multiple tags later
   const firstTag = filters[0];
-  console.log("firstTag : ", firstTag);
+  // console.log("firstTag : ", firstTag);
 
   switch (firstTag) {
     case Tag.ALL:

@@ -137,9 +137,9 @@ export const Map = ({}: Props) => {
 
     const scoreForGuess = calculateScoreForGuessPrecise(roundedNumber);
     const rough = calculateScoreForGuessRough(roundedNumber);
-    console.log("distance away in miles : ", roundedNumber);
-    console.log("precise : ", scoreForGuess);
-    console.log("rough : ", rough);
+    // console.log("distance away in miles : ", roundedNumber);
+    // console.log("precise : ", scoreForGuess);
+    // console.log("rough : ", rough);
 
     const body = {
       distanceFromSpot: roundedNumber,
@@ -176,7 +176,7 @@ export const Map = ({}: Props) => {
     map?.addListener("click", mapOnClick);
 
     dispatch!({ spot: nextSpot, result: undefined });
-    console.log("next spot : ", nextSpot);
+    // console.log("next spot : ", nextSpot);
     setMapContainerStyle("map-container");
   };
 

@@ -38,7 +38,7 @@ const GameSelect = ({}: Props) => {
     const spot: SpotWithPov = await http("/api/spots?spotType=" + spotType);
 
     const newGame = new Game(userName, gameType, spotType);
-    console.log("createAndStartGame : ", spot);
+    // console.log("createAndStartGame : ", spot);
 
     dispatch!({ game: newGame, spot });
   };
