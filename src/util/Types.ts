@@ -4,23 +4,21 @@ export interface SpotWithPov extends Spot {
 }
 
 export enum Tag {
-  NOT_UNITED_STATES = "NOT_UNITED_STATES",
-  FAMOUS = "FAMOUS",
-  REMOVE = "REMOVE",
-  EUROPE = "EUROPE",
-  STL_AREA = "STL_AREA",
-  POPULAR = "POPULAR",
-  ALL = "ALL",
+  UNITED_STATES = "USA",
+  NOT_UNITED_STATES = "Not USA",
+  FAMOUS = "Famous",
+  STL_AREA = "St. Louis",
+  POPULAR = "Popular",
+  ALL = "All",
 }
 
 export enum SpotType {
-  NOT_UNITED_STATES = "NOT_UNITED_STATES",
-  FAMOUS = "FAMOUS",
-  REMOVE = "REMOVE",
-  EUROPE = "EUROPE",
-  STL_AREA = "STL_AREA",
-  POPULAR = "POPULAR",
-  ALL = "ALL",
+  UNITED_STATES = "USA",
+  NOT_UNITED_STATES = "Not USA",
+  FAMOUS = "Famous",
+  STL_AREA = "St. Louis",
+  POPULAR = "Popular",
+  ALL = "All",
 }
 
 export enum GameType {
