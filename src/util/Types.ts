@@ -10,6 +10,8 @@ export enum Tag {
   STL_AREA = "St. Louis",
   POPULAR = "Popular",
   ALL = "All",
+  TEST = "Test",
+  REMOVE = "Remove",
 }
 
 export enum SpotType {
@@ -19,6 +21,7 @@ export enum SpotType {
   STL_AREA = "St. Louis",
   POPULAR = "Popular",
   ALL = "All",
+  TEST = "Test",
 }
 
 export enum GameType {
